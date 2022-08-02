@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-title>Lista de Compras</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [hidden]="!openForm" (submit)="submit()" [formGroup]="listForm">
+    <ion-item line="full">
+      <ion-label position="floating">Nome da Lista</ion-label>
+      <ion-input #listFormInput type="text" formControlName="name" autofocus="true"></ion-input>
+    </ion-item>
+  </form>
+  <!-- List -->
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button *ngIf="!openForm" (click)="openFormEvent()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-button color="success" *ngIf="openForm" (click)="submit()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
