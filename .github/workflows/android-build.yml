@@ -3,7 +3,7 @@ name: Build Android (Debug)
 on:
   push:
     branches:
-      - QA
+      - main
 
 jobs:
   build:
@@ -30,8 +30,8 @@ jobs:
       - name: Build Ionic App
         run: npm run build
 
-      - name: Capacitor Update
-        run: npx cap update
+      # - name: Capacitor Update
+      #   run: npx cap update
 
       - name: Capacitor Copy
         run: npx cap copy
