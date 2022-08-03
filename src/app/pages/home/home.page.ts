@@ -26,7 +26,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.loadList();
-    this.platform.backButton.subscribeWithPriority(10, () => {
+    this.platform.backButton.subscribeWithPriority(0, () => {
       App.exitApp();
     });
   }
@@ -94,6 +94,10 @@ export class HomePage implements OnInit {
       console.error(error);
       this.toast.display(`Error: ${error}`);
     }
+  }
+
+  public inputChange() {
+    this.saveList();
   }
 
   public getTotal(): number {

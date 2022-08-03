@@ -25,21 +25,21 @@
           <div class="w-50 padding-horizontal">
             <ion-item class="ion-no-padding">
               <ion-label position="stacked">Produto</ion-label>
-              <ion-input #itemNameInput type="text" [(ngModel)]="item.itemName"></ion-input>
+              <ion-input #itemNameInput type="text" [(ngModel)]="item.itemName" (ngModelChange)="inputChange()"></ion-input>
             </ion-item>
           </div>
 
           <div class="w-20 ">
             <ion-item class="ion-no-padding">
               <ion-label position="stacked">QTD</ion-label>
-              <ion-input type="number" [min]="0" [(ngModel)]="item.quantity"></ion-input>
+              <ion-input type="number" [min]="0" [(ngModel)]="item.quantity" (ngModelChange)="inputChange()"></ion-input>
             </ion-item>
           </div>
 
           <div class="w-30 padding-horizontal">
             <ion-item  class="ion-no-padding">
               <ion-label position="stacked">Valor</ion-label>
-              <ion-input type="number" [min]="0" [(ngModel)]="item.value"></ion-input>
+              <ion-input type="number" [min]="0" [(ngModel)]="item.value" (ngModelChange)="inputChange()"></ion-input>
             </ion-item>
           </div>
         </div>
