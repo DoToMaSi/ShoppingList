@@ -12,18 +12,24 @@ export class StorageService {
   constructor(private ionStorage: Storage) {}
 
   public async init() {
-    await this.ionStorage.create();
+    try {
+      const storage = await this.ionStorage.create();
+      this.storage = storage;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
   }
 
   public async get(key: string) {
-    return this.ionStorage.get(key);
+    return this.storage.get(key);
   }
 
   public async set(key: string, data: any) {
-    return this.ionStorage.set(key, data);
+    return this.storage.set(key, data);
   }
 
   public async clear() {
-    return this.ionStorage.clear();
+    return this.storage.clear();
   }
 }
