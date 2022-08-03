@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary" mode="ios">
     <ion-title>Lista de Compras</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="removeAll()" fill="clear">
+        <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

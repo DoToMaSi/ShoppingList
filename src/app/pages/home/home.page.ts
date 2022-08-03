@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { IonContent, IonInput } from '@ionic/angular';
+import { AlertController, IonContent, IonInput } from '@ionic/angular';
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
 import { StorageService } from 'src/app/services/storage.service';
 import { ToastUtils } from 'src/app/utils/toast';
@@ -19,7 +19,8 @@ export class HomePage implements OnInit {
 
   constructor(
       private storageService: StorageService,
-      private toast: ToastUtils
+      private toast: ToastUtils,
+      private alertCtrl: AlertController
     ) { }
 
   ngOnInit() {
@@ -29,7 +30,7 @@ export class HomePage implements OnInit {
   public addItem() {
     this.shoppingList.push({
       itemName: '',
-      quantity: 1,
+      quantity: null,
       value: null
     });
 
@@ -46,6 +47,25 @@ export class HomePage implements OnInit {
     this.saveList();
   }
 
+  public async removeAll() {
+    const alert = await this.alertCtrl.create({
+      header: 'Limpar a Lista?',
+      subHeader: 'Deseja limpar a lista toda removendo todos os produtos? Esta ação não pode ser desfeita!',
+      mode: 'ios',
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel'
+      },{
+        text: 'Sim',
+        handler: () => {
+          this.saveList(true);
+        }
+      }]
+    })
+
+    alert.present();
+  }
+
   private async loadList() {
     try {
       const shoppingList: ShoppingCartItem[] = await this.storageService.get('shoppingList');
@@ -58,8 +78,11 @@ export class HomePage implements OnInit {
     }
   }
 
-  private async saveList() {
+  private async saveList(clearList = false) {
     try {
+      if (clearList) {
+        this.shoppingList = [];
+      }
       await this.storageService.set('shoppingList', this.shoppingList);
     } catch (error) {
       console.error(error);
