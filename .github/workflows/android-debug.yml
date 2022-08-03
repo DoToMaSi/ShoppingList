@@ -1,0 +1,58 @@
+name: Build Android Debug
+
+on:
+  push:
+    branches:
+      - QA
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+            distribution: 'zulu'
+            java-version: '11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install app dependencies
+        run: npm install
+
+      - name: Build Ionic App
+        run: npm run build
+
+      - name: Capacitor Update
+        run: npx cap update
+
+      - name: Capacitor Copy
+        run: npx cap copy
+
+      - name: Capacitor Sync
+        run: npx cap sync
+
+      - name: Build APP bundle
+        run: cd android && gradle bundle
+
+      - name: Extract Android signing key from env
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
+          base64 -d android/release.jks.base64 > android/release.decrypted.jks
+
+      - name: Sign DEV Build
+        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab release
+
+      - name: Upload Release Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: android/app/build/outputs/bundle/release/app-release-signed.aab
+          retention-days: 60
