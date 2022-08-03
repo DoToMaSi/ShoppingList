@@ -1,9 +1,9 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { AlertController, IonContent, IonInput } from '@ionic/angular';
+import { AlertController, IonContent, IonInput, Platform } from '@ionic/angular';
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
 import { StorageService } from 'src/app/services/storage.service';
 import { ToastUtils } from 'src/app/utils/toast';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-home',
@@ -20,11 +20,15 @@ export class HomePage implements OnInit {
   constructor(
       private storageService: StorageService,
       private toast: ToastUtils,
-      private alertCtrl: AlertController
+      private alertCtrl: AlertController,
+      private platform: Platform
     ) { }
 
   ngOnInit() {
     this.loadList();
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      App.exitApp();
+    });
   }
 
   public addItem() {
@@ -69,9 +73,11 @@ export class HomePage implements OnInit {
   private async loadList() {
     try {
       const shoppingList: ShoppingCartItem[] = await this.storageService.get('shoppingList');
-      shoppingList.map((item) => {
-        this.shoppingList.push(item);
-      })
+      if (shoppingList && shoppingList.length > 0) {
+        shoppingList.map((item) => {
+          this.shoppingList.push(item);
+        });
+      }
     } catch (error) {
       console.error(error);
       this.toast.display(`Error: ${error}`);
