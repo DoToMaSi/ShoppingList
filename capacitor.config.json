@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "ShoppingList",
+	"appId": "br.com.rockettsally.shoppinglist",
+	"appName": "Shopping List - Lista de Compras",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
