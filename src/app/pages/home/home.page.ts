@@ -1,9 +1,15 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AlertController, IonContent, IonInput, Platform } from '@ionic/angular';
+import { App } from '@capacitor/app';
+
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
 import { StorageService } from 'src/app/services/storage.service';
 import { ToastUtils } from 'src/app/utils/toast';
-import { App } from '@capacitor/app';
+import { ShoppingCart } from 'src/app/models/shopping-cart';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ListService } from 'src/app/services/list.service';
 
 @Component({
   selector: 'app-home',
@@ -12,57 +18,92 @@ import { App } from '@capacitor/app';
 })
 export class HomePage implements OnInit {
 
-  @ViewChildren('itemNameInput') inputNameInputList: QueryList<IonInput>;
+  @ViewChildren('inputNameInputList') inputNameInputList: QueryList<IonInput>;
+  // @ViewChild('inputNameInputList') inputNameInputList: IonInput;
   @ViewChild('homeContent') public homeContent: IonContent;
 
+  public newListFormOpen = new BehaviorSubject(false);
+  public newListForm = new FormGroup({
+    name: new FormControl('')
+  });
+  public shoppingCart: ShoppingCart;
   public shoppingList: ShoppingCartItem[] = [];
 
   constructor(
-      private storageService: StorageService,
+      private listService: ListService,
       private toast: ToastUtils,
       private alertCtrl: AlertController,
+      private router: Router,
       private platform: Platform
     ) { }
 
-  ngOnInit() {
-    this.loadList();
+  public ngOnInit() {
     this.platform.backButton.subscribeWithPriority(0, () => {
       App.exitApp();
     });
   }
 
-  public addItem() {
-    this.shoppingList.push({
-      itemName: '',
-      quantity: null,
-      value: null
-    });
+  public ngAfterViewInit() {}
 
-    setTimeout( async () => {
-      const ionInputArray = this.inputNameInputList.toArray();
-      await this.homeContent.scrollToBottom();
-      await ionInputArray[ionInputArray.length - 1].setFocus();
-      await this.saveList();
-    }, 50);
+  public newListButton() {
+    this.newListFormOpen.next(true);
+    this.newListForm.reset();
   }
 
-  public removeItem(index: number) {
-    this.shoppingList.splice(index, 1);
-    this.saveList();
+  public closeListForm() {
+    this.newListFormOpen.next(false);
+    this.newListForm.reset();
   }
 
-  public async removeAll() {
+  public getShoppingCartList() {
+    if (this.listService.getShoppingCarts()) {
+      return this.listService.getShoppingCarts().reverse();
+    }
+  }
+
+  public async saveNewList() {
+    this.newListFormOpen.next(false);
+    const newListForm = this.newListForm.value as { name: string };
+
+    if (newListForm.name.trim()) {
+      try {
+        const shoppingCart = await this.listService.addShoppingCart(newListForm);
+        this.listService.loadShoppingCarts();
+        this.accessList(shoppingCart);
+      } catch (error) {
+        console.error(error);
+        this.toast.display(`Error: ${error}`);
+      }
+    } else {
+      this.closeListForm();
+    }
+  }
+
+  public async accessList(shoppingCart: ShoppingCart) {
+    this.closeListForm();
+    this.router.navigate([`/shopping-list/${shoppingCart.index}`]);
+  }
+
+  public async copyList(shoppingCart: ShoppingCart) {
+    this.closeListForm();
     const alert = await this.alertCtrl.create({
-      header: 'Limpar a Lista?',
-      subHeader: 'Deseja limpar a lista toda removendo todos os produtos? Esta ação não pode ser desfeita!',
+      header: `Duplicar a lista ${shoppingCart.name}?`,
+      subHeader: 'Deseja duplicar esta lista de compras?',
       mode: 'ios',
       buttons: [{
         text: 'Cancelar',
         role: 'cancel'
       },{
         text: 'Sim',
-        handler: () => {
-          this.saveList(true);
+        handler: async () => {
+          try {
+            await this.listService.copyShoppingCart(shoppingCart);
+            this.toast.display('Lista Duplicada com Sucesso');
+            this.listService.loadShoppingCarts();
+          } catch (error) {
+            console.error(error);
+            this.toast.display(`ERRO: ${error}`);
+          }
         }
       }]
     })
@@ -70,46 +111,46 @@ export class HomePage implements OnInit {
     alert.present();
   }
 
-  private async loadList() {
-    try {
-      const shoppingList: ShoppingCartItem[] = await this.storageService.get('shoppingList');
-      if (shoppingList && shoppingList.length > 0) {
-        shoppingList.map((item) => {
-          this.shoppingList.push(item);
-        });
+  public async removeList(shoppingCart: ShoppingCart) {
+    this.closeListForm();
+    const alert = await this.alertCtrl.create({
+      header: `Remover a lista ${shoppingCart.name}?`,
+      subHeader: 'Deseja remover esta lista de compras? Esta ação não pode ser desfeita!',
+      mode: 'ios',
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel'
+      },{
+        text: 'Sim',
+        handler: async () => {
+          try {
+            await this.listService.removeShoppingCart(shoppingCart);
+            this.toast.display('Lista Removida com Sucesso');
+            this.listService.loadShoppingCarts();
+          } catch (error) {
+            console.error(error);
+            this.toast.display(`ERRO: ${error}`);
+          }
+        }
+      }]
+    })
+
+    alert.present();
+  }
+
+  public async clickEditInput(shoppingCart: ShoppingCart, index: number) {
+    shoppingCart.edit = true;
+
+    setTimeout( async () => {
+      if (this.inputNameInputList) {
+        const ionInputArray = this.inputNameInputList.toArray();
+        await ionInputArray[index].setFocus();
       }
-    } catch (error) {
-      console.error(error);
-      this.toast.display(`Error: ${error}`);
-    }
+    }, 50);
   }
 
-  private async saveList(clearList = false) {
-    try {
-      if (clearList) {
-        this.shoppingList = [];
-      }
-      await this.storageService.set('shoppingList', this.shoppingList);
-    } catch (error) {
-      console.error(error);
-      this.toast.display(`Error: ${error}`);
-    }
-  }
-
-  public inputChange() {
-    this.saveList();
-  }
-
-  public getTotal(): number {
-    let totalValue = 0;
-    if (this.shoppingList && this.shoppingList.length > 0) {
-      this.shoppingList.map((item) => {
-        const itemQuantity = (item.quantity > 0 ? item.quantity : 0);
-        const itemValue = (item.value > 0 ? item.value : 0);
-        totalValue += (itemValue * itemQuantity);
-      });
-    }
-
-    return totalValue;
+  public async saveEditInput(shoppingCart: ShoppingCart) {
+    await this.listService.saveShoppingCart(shoppingCart);
+    shoppingCart.edit = false;
   }
 }
