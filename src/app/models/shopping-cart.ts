@@ -7,12 +7,10 @@ export class ShoppingCart {
   cartItems: ShoppingCartItem[];
 
   constructor(shoppingCart?: any) {
-    if (shoppingCart) {
-      this.index = shoppingCart.index || null;
-      this.name = shoppingCart.name || null;
-      this.cartItems = shoppingCart.cartItems || [];
-      this.edit = false;
-    }
+    this.index = shoppingCart?.index || null;
+    this.name = shoppingCart?.name || null;
+    this.cartItems = shoppingCart?.cartItems || [];
+    this.edit = false;
   }
 
   public getCartTotal(): number {

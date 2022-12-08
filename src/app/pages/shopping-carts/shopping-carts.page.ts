@@ -188,4 +188,23 @@ export class ShoppingCartsPage implements OnInit {
       this.ref.detectChanges();
     }, 50);
   }
+
+  public async importListTest() {
+    const str = `
+    Lista: Teste Cópia Objeto
+
+    ===
+
+    - 3× Leite: R$ 4,89 cada;
+    - 2× Pão: R$ 3,89 cada;
+    - 1× Carne Moída: R$ 16,89 cada;
+
+    VALOR TOTAL: R$ 39,34
+
+    ===
+
+    Lista gerada pelo app Shopping Cart. (Não apague os "===" ou o que estiver entre eles, ou seja, os itens da lista)
+    `
+    await this.listService.parseStringToList(str);
+  }
 }
