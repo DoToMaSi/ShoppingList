@@ -1,5 +1,5 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
-import { AlertController, IonContent, IonInput, Platform } from '@ionic/angular';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef, Optional } from '@angular/core';
+import { AlertController, IonContent, IonInput, IonRouterOutlet, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
@@ -33,12 +33,15 @@ export class HomePage implements OnInit {
       private alertCtrl: AlertController,
       private router: Router,
       private platform: Platform,
-      private ref: ChangeDetectorRef
+      private ref: ChangeDetectorRef,
+      @Optional() private routerOutlet?: IonRouterOutlet
     ) { }
 
   public ngOnInit() {
     this.platform.backButton.subscribeWithPriority(0, () => {
-      App.exitApp();
+      if (!this.routerOutlet.canGoBack()) {
+        App.exitApp();
+      }
     });
   }
 
