@@ -3,11 +3,11 @@ name: Build Android
 on:
   push:
     branches:
-      - main
+      - QA
 
 jobs:
   build:
-    name: Build AAB
+    name: Build APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
