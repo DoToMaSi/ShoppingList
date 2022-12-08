@@ -1,9 +1,8 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import { AlertController, IonContent, IonInput, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
-import { StorageService } from 'src/app/services/storage.service';
 import { ToastUtils } from 'src/app/utils/toast';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { Router } from '@angular/router';
@@ -19,7 +18,6 @@ import { ListService } from 'src/app/services/list.service';
 export class HomePage implements OnInit {
 
   @ViewChildren('inputNameInputList') inputNameInputList: QueryList<IonInput>;
-  // @ViewChild('inputNameInputList') inputNameInputList: IonInput;
   @ViewChild('homeContent') public homeContent: IonContent;
 
   public newListFormOpen = new BehaviorSubject(false);
@@ -34,7 +32,8 @@ export class HomePage implements OnInit {
       private toast: ToastUtils,
       private alertCtrl: AlertController,
       private router: Router,
-      private platform: Platform
+      private platform: Platform,
+      private ref: ChangeDetectorRef
     ) { }
 
   public ngOnInit() {
@@ -84,7 +83,7 @@ export class HomePage implements OnInit {
     this.router.navigate([`/shopping-list/${shoppingCart.index}`]);
   }
 
-  public async copyList(shoppingCart: ShoppingCart) {
+  public async copyList(shoppingCart: ShoppingCart, index: number) {
     this.closeListForm();
     const alert = await this.alertCtrl.create({
       header: `Duplicar a lista ${shoppingCart.name}?`,
@@ -97,9 +96,10 @@ export class HomePage implements OnInit {
         text: 'Sim',
         handler: async () => {
           try {
-            await this.listService.copyShoppingCart(shoppingCart);
+            await this.listService.copyShoppingCart(shoppingCart, index);
             this.toast.display('Lista Duplicada com Sucesso');
             this.listService.loadShoppingCarts();
+            this.ref.detectChanges();
           } catch (error) {
             console.error(error);
             this.toast.display(`ERRO: ${error}`);
@@ -109,6 +109,7 @@ export class HomePage implements OnInit {
     })
 
     alert.present();
+    this.ref.detectChanges();
   }
 
   public async removeList(shoppingCart: ShoppingCart) {
@@ -127,6 +128,7 @@ export class HomePage implements OnInit {
             await this.listService.removeShoppingCart(shoppingCart);
             this.toast.display('Lista Removida com Sucesso');
             this.listService.loadShoppingCarts();
+            this.ref.detectChanges();
           } catch (error) {
             console.error(error);
             this.toast.display(`ERRO: ${error}`);
@@ -140,11 +142,11 @@ export class HomePage implements OnInit {
 
   public async clickEditInput(shoppingCart: ShoppingCart, index: number) {
     shoppingCart.edit = true;
-
     setTimeout( async () => {
       if (this.inputNameInputList) {
         const ionInputArray = this.inputNameInputList.toArray();
         await ionInputArray[index].setFocus();
+        this.ref.detectChanges();
       }
     }, 50);
   }
@@ -152,5 +154,8 @@ export class HomePage implements OnInit {
   public async saveEditInput(shoppingCart: ShoppingCart) {
     await this.listService.saveShoppingCart(shoppingCart);
     shoppingCart.edit = false;
+    setTimeout(() => {
+      this.ref.detectChanges();
+    }, 50);
   }
 }

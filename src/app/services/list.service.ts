@@ -40,10 +40,10 @@ export class ListService {
     return newShoppingCart;
   }
 
-  public async copyShoppingCart(shoppingCart: ShoppingCart) {
+  public async copyShoppingCart(shoppingCart: ShoppingCart, index: number) {
     const newShoppingCart = new ShoppingCart(JSON.parse(JSON.stringify({...shoppingCart})));
     newShoppingCart.name = `${newShoppingCart.name} 2`;
-    this.shoppingCarts.push(newShoppingCart);
+    this.shoppingCarts.splice(index, 0, newShoppingCart);
 
     this.shoppingCarts.map((cart, index) => {
       cart.index = (index + 1);

@@ -23,8 +23,24 @@
     <div class="shopping-cart custom-card" *ngFor="let shoppingCart of getShoppingCartList(); let i = index">
       <div class="padding-horizontal flex display-columns gap-8">
         <div id="card-titles">
-          <div (click)="clickEditInput(shoppingCart, i)" [hidden]="(shoppingCart?.edit)">
-            <h5><b>{{ shoppingCart?.name }}</b></h5>
+          <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
+            <h5 class="w-70" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
+            <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
+            <ion-popover #popover mode="ios" [trigger]="'click-trigger-' + i" triggerAction="click">
+              <ng-template>
+                <ion-content>
+                  <ion-item button (click)="clickEditInput(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
+                    <ion-icon name="create" slot="start"></ion-icon>Editar Nome
+                  </ion-item>
+                  <ion-item button (click)="copyList(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
+                    <ion-icon name="copy" slot="start"></ion-icon>Duplicar
+                  </ion-item>
+                  <ion-item button (click)="removeList(shoppingCart); popover.dismiss()" detail="false" lines="none">
+                    <ion-icon name="trash" slot="start"></ion-icon>Remover
+                  </ion-item>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
           </div>
 
           <div [hidden]="!(shoppingCart?.edit)">
@@ -45,25 +61,11 @@
             <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$': '1.2-2' }}</label>
           </div>
         </div>
-
-        <div id="card-buttons" class="flex flex-basis-auto">
-          <ion-button fill="outline" expand="block" class="w-100" (click)="accessList(shoppingCart)">
-            <ion-icon name="eye" slot="start"></ion-icon>Ver
-          </ion-button>
-
-          <ion-button fill="outline" expand="block" color="success" class="w-100" (click)="copyList(shoppingCart)">
-            <ion-icon name="copy" slot="start"></ion-icon>Duplicar
-          </ion-button>
-
-          <ion-button fill="outline" expand="block" color="danger" class="w-100" (click)="removeList(shoppingCart)">
-            <ion-icon name="trash" slot="start"></ion-icon>Remover
-          </ion-button>
-        </div>
       </div>
     </div>
   </ion-list>
 
-  <ion-fab horizontal="end" vertical="bottom">
+  <ion-fab slot="fixed" horizontal="end" vertical="bottom">
     <ion-fab-button (click)="newListButton()" [hidden]="(newListFormOpen | async)">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

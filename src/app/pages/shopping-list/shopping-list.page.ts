@@ -5,6 +5,7 @@ import { AlertController, IonContent, IonInput, ItemReorderEventDetail, NavContr
 import { ToastUtils } from 'src/app/utils/toast';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
 import { ActivatedRoute } from '@angular/router';
+import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
 
 @Component({
   selector: 'app-shopping-list',
@@ -32,21 +33,6 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
     this.loadList();
   }
 
-  private async loadList() {
-    try {
-      const index = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-      this.shoppingCart = this.listService.getCartById(index);
-
-
-      if (!this.shoppingCart) {
-        this.navCtrl.navigateRoot('home');
-      }
-    } catch (error) {
-      console.error(error);
-      this.toast.display(`Error: ${error}`);
-    }
-  }
-
   public addItem() {
     this.shoppingCart.cartItems.push({
       itemName: '',
@@ -58,7 +44,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
       const ionInputArray = this.inputNameInputList.toArray();
       await this.saveList();
       await ionInputArray[ionInputArray.length - 1].setFocus();
-    }, 50);
+    }, 150);
   }
 
   public removeItem(index: number) {
@@ -80,9 +66,52 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
           this.saveList(true);
         }
       }]
-    })
+    });
 
     alert.present();
+  }
+
+  public inputChange() {
+    this.saveList();
+  }
+
+  public getTotal(): number {
+    let totalValue = 0;
+    if (this.shoppingCart.cartItems && this.shoppingCart.cartItems.length > 0) {
+      this.shoppingCart.cartItems.map((item) => {
+        const itemQuantity = (item.quantity > 0 ? item.quantity : 0);
+        const itemValue = (item.value > 0 ? item.value : 0);
+        totalValue += (itemValue * itemQuantity);
+      });
+    }
+
+    return totalValue;
+  }
+
+  public async handleReorder(reorderEvent: CustomEvent<ItemReorderEventDetail>) {
+    reorderEvent.detail.complete(this.shoppingCart.cartItems);
+    await this.saveList();
+  }
+
+  public async copyItem(item: ShoppingCartItem, index: number) {
+    const newItem = JSON.parse(JSON.stringify(item));
+    this.shoppingCart.cartItems.splice(index, 0, newItem);
+    await this.saveList();
+  }
+
+  private async loadList() {
+    try {
+      const index = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+      this.shoppingCart = this.listService.getCartById(index);
+
+
+      if (!this.shoppingCart) {
+        this.navCtrl.navigateRoot('home');
+      }
+    } catch (error) {
+      console.error(error);
+      this.toast.display(`Error: ${error}`);
+    }
   }
 
   private async saveList(clearList = false) {
@@ -96,27 +125,5 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
       console.error(error);
       this.toast.display(`Error: ${error}`);
     }
-  }
-
-  public inputChange() {
-    this.saveList();
-  }
-
-  public getTotal(): number {
-    let totalValue = 0;
-    if (this.shoppingCart.cartItems && this.shoppingCart.cartItems.length > 0) {
-      this.shoppingCart.cartItems.map((item) => {
-        const itemQuantity = (item.quantity > 0 ? item.quantity : 0);
-        const itemValue = (parseFloat(item.value) > 0 ? parseFloat(item.value) : 0);
-        totalValue += (itemValue * itemQuantity);
-      });
-    }
-
-    return totalValue;
-  }
-
-  public async handleReorder(reorderEvent: CustomEvent<ItemReorderEventDetail>) {
-    reorderEvent.detail.complete(this.shoppingCart.cartItems);
-    await this.saveList();
   }
 }

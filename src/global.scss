@@ -113,6 +113,10 @@
   }
 }
 
+.fake-button {
+  color: #3880ff;
+}
+
 .no-item-div {
   width: 100%;
   display: flex;
@@ -189,6 +193,10 @@
 
   &.center {
     justify-content: center;
+  }
+
+  &.right {
+    justify-content: right;
   }
 
   &.center-vertical {
