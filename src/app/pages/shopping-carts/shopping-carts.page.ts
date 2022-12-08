@@ -11,11 +11,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ListService } from 'src/app/services/list.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  templateUrl: './shopping-carts.page.html',
+  styleUrls: ['./shopping-carts.page.scss'],
 })
-export class HomePage implements OnInit {
+export class ShoppingCartsPage implements OnInit {
 
   @ViewChildren('inputNameInputList') inputNameInputList: QueryList<IonInput>;
   @ViewChild('homeContent') public homeContent: IonContent;
@@ -141,6 +140,34 @@ export class HomePage implements OnInit {
     })
 
     alert.present();
+  }
+
+  public async shareList(shoppingCart: ShoppingCart) {
+    if (this.platform.is('mobile')) {
+      try {
+        await this.listService.shareShoppingList(shoppingCart);
+      } catch (error) {
+        console.error(error);
+        this.toast.display('Erro ao tentar compartilhar a lista de Compras');
+      } finally {
+        this.ref.detectChanges();
+      }
+    } else {
+      const selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = this.listService.parseListToString(shoppingCart);
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+
+      this.ref.detectChanges();
+      this.toast.display('Copiada Lista de Compras!');
+    }
   }
 
   public async clickEditInput(shoppingCart: ShoppingCart, index: number) {

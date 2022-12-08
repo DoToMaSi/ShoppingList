@@ -35,6 +35,9 @@
                   <ion-item button (click)="copyList(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
                     <ion-icon name="copy" slot="start"></ion-icon>Duplicar
                   </ion-item>
+                  <ion-item button (click)="shareList(shoppingCart); popover.dismiss()" detail="false" lines="full">
+                    <ion-icon name="share-social" slot="start"></ion-icon>Compartilhar
+                  </ion-item>
                   <ion-item button (click)="removeList(shoppingCart); popover.dismiss()" detail="false" lines="none">
                     <ion-icon name="trash" slot="start"></ion-icon>Remover
                   </ion-item>
@@ -58,7 +61,7 @@
 
           <div class="flex space-between" (click)="accessList(shoppingCart)">
             <label>Itens: {{ shoppingCart?.getCartLength() }}</label>
-            <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$ ': '1.2-2' }}</label>
+            <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$': '1.2-2' }}</label>
           </div>
         </div>
       </div>

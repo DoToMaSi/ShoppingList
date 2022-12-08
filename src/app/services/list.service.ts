@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
+import { Platform } from "@ionic/angular";
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { ShoppingCart } from "../models/shopping-cart";
 import { StorageService } from "./storage.service";
+import { CurrencyPipe } from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,10 @@ export class ListService {
   private shoppingCarts: ShoppingCart[];
 
   constructor(
-    private storageService: StorageService
+    private storageService: StorageService,
+    private socialSharing: SocialSharing,
+    private platform: Platform,
+    private currencyPipe: CurrencyPipe
   ) {
     this.loadShoppingCarts();
   }
@@ -87,5 +93,56 @@ export class ListService {
     }
 
     return await this.storageService.set('shoppingCarts', this.shoppingCarts);
+  }
+
+  public parseListToString(shoppingCart: ShoppingCart): string {
+    let str = `Lista: ${shoppingCart.name}\n\n===\n`;
+    if (shoppingCart.cartItems.length > 0) {
+      shoppingCart.cartItems.forEach((cartItem, index) => {
+        console.log(shoppingCart.cartItems.length, (index + 1));
+        if (cartItem.itemName) {
+          str += `\n- `;
+          if (cartItem.quantity) {
+            str += `${cartItem.quantity}x `;
+          }
+          str += `${cartItem.itemName}`;
+          if (cartItem.value) {
+            str += `: ${this.currencyPipe.transform(cartItem.value, 'BRL', 'R$', '1.2-2')} cada`;
+          }
+        }
+
+        if (index === (shoppingCart.cartItems.length - 1)) {
+          str += `\n`;
+        }
+      });
+
+      if (shoppingCart.getCartTotal()) {
+        str += `\nVALOR TOTAL: ${this.currencyPipe.transform(shoppingCart.getCartTotal(), 'BRL', 'R$', '1.2-2')}\n`;
+      }
+    } else {
+      str += `\n[Esta lista está vazia]\n`;
+    }
+
+    str += `\n===\n\nLista gerada pelo app Shopping Cart. (Não apague os "===" ou o que estiver entre eles, ou seja, os itens da lista)`;
+    console.log(str);
+    return str;
+  }
+
+  private parseStringToList(string: string): ShoppingCart {
+    return new ShoppingCart();
+  }
+
+  public async shareShoppingList(shoppingCart: ShoppingCart) {
+    try {
+      const shoppingCartString = this.parseListToString(shoppingCart);
+      if (this.platform.is('mobile')) {
+        return this.socialSharing.share(shoppingCartString);
+      } else {
+        return shoppingCartString;
+      }
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
   }
 }

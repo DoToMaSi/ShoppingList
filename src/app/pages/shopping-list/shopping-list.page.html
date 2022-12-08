@@ -5,9 +5,22 @@
     </ion-buttons>
     <ion-title>{{ shoppingCart?.name }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="removeAll()" fill="clear">
-        <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
+      <ion-button fill="clear" id="actions-popover">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
       </ion-button>
+      <ion-popover #popover mode="ios" trigger="actions-popover" triggerAction="click">
+        <ng-template>
+          <ion-content>
+            <ion-item button (click)="removeAll(); popover.dismiss()" detail="false" lines="full">
+              <ion-icon slot="start" name="trash-bin-outline"></ion-icon> Limpar Lista
+            </ion-item>
+
+            <ion-item button (click)="shareShoppingList(); popover.dismiss()" detail="false" lines="none">
+              <ion-icon slot="start" name="share-social"></ion-icon> Compartilhar
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -53,12 +66,12 @@
           <div class="item-form-flex padding-top">
             <div class="w-100 flex center-vertical space-between padding-left">
               <small (click)="copyItem(item, i)" class="fake-button">
-                <b><ion-icon name="copy"></ion-icon> Copiar</b>
+                <b><ion-icon name="copy"></ion-icon> Duplicar</b>
               </small>
-              <small>Total Item:</small>
+              <small>Sub-Total:</small>
             </div>
             <div class="amount-div flex center-vertical">
-              <small class="padding-horizontal">{{ (item.value * item.quantity) | currency: 'BRL' : 'R$ ': '1.2-2' }}</small>
+              <small class="padding-horizontal">{{ (item.value * item.quantity) | currency: 'BRL' : 'R$': '1.2-2' }}</small>
             </div>
           </div>
         </div>

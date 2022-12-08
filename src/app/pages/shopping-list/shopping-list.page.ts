@@ -1,5 +1,5 @@
 import { ListService } from 'src/app/services/list.service';
-import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AlertController, IonContent, IonInput, ItemReorderEventDetail, NavController, Platform, ToastController } from '@ionic/angular';
 
 import { ToastUtils } from 'src/app/utils/toast';
@@ -21,6 +21,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
   public removeToast: HTMLIonToastElement;
 
   constructor(
+    private ref: ChangeDetectorRef,
     private listService: ListService,
     private toast: ToastUtils,
     private alertCtrl: AlertController,
@@ -101,7 +102,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
   }
 
   public inputChange(item?: ShoppingCartItem) {
-    if (item) {
+    if (item && item.value) {
       item.value = parseFloat(item.value.toFixed(2));
     }
     this.saveList();
@@ -131,6 +132,34 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
     await this.saveList();
   }
 
+  public async shareShoppingList() {
+    if (this.platform.is('mobile')) {
+      try {
+        await this.listService.shareShoppingList(this.shoppingCart);
+      } catch (error) {
+        console.error(error);
+        this.toast.display('Erro ao tentar compartilhar a lista de Compras');
+      } finally {
+        this.ref.detectChanges();
+      }
+    } else {
+      const selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = this.listService.parseListToString(this.shoppingCart);
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+
+      this.ref.detectChanges();
+      this.toast.display('Copiada Lista de Compras!');
+    }
+  }
+
   private async loadList() {
     try {
       const index = parseInt(this.route.snapshot.paramMap.get('id'), 10);
@@ -138,7 +167,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
 
 
       if (!this.shoppingCart) {
-        this.navCtrl.navigateRoot('home');
+        this.navCtrl.navigateRoot('shopping-carts');
       }
     } catch (error) {
       console.error(error);
