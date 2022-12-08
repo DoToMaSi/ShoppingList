@@ -48,7 +48,7 @@ jobs:
           base64 -d android/release.jks.base64 > android/release.decrypted.jks
 
       - name: Sign DEV Build
-        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/apk/release/app-release-unsigned.apk ./android/app/build/outputs/apk/release/app-release-signed.apk release
+        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/apk/release/app-release-signed.apk ./android/app/build/outputs/apk/release/app-release-unsigned.apk release
 
       - name: Upload Release Bundle
         uses: actions/upload-artifact@v2
