@@ -10,8 +10,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "full-build-apk-debug": "npm run build && npx cap copy && npx cap sync && cd android && gradlew assembleDebug",
-    "build-apk-debug": "cd android && gradlew assembleDebug"
+    "generate-icon-splash": "npx capacitor-assets generate --android",
+    "capacitor-build": "npx cap copy && npx cap sync",
+    "build-apk-debug": "cd android && gradlew assembleDebug",
+    "full-build-apk-debug": "npm i && npm run build && npm run generate-icon-splash && npm run capacitor-build && npm run build-apk-debug"
   },
   "private": true,
   "dependencies": {
