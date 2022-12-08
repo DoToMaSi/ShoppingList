@@ -1,6 +1,6 @@
 import { ListService } from 'src/app/services/list.service';
 import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { AlertController, IonContent, IonInput, ItemReorderEventDetail, NavController, Platform } from '@ionic/angular';
+import { AlertController, IonContent, IonInput, ItemReorderEventDetail, NavController, Platform, ToastController } from '@ionic/angular';
 
 import { ToastUtils } from 'src/app/utils/toast';
 import { ShoppingCart } from 'src/app/models/shopping-cart';
@@ -18,11 +18,13 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
   @ViewChild('homeContent') public homeContent: IonContent;
 
   public shoppingCart: ShoppingCart;
+  public removeToast: HTMLIonToastElement;
 
   constructor(
     private listService: ListService,
     private toast: ToastUtils,
     private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
     private navCtrl: NavController,
     private route: ActivatedRoute
   ) { }
@@ -47,9 +49,31 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
     }, 150);
   }
 
-  public removeItem(index: number) {
-    this.shoppingCart.cartItems.splice(index, 1);
+  public async removeItem(index: number) {
+    const removedItem = this.shoppingCart.cartItems.splice(index, 1);
     this.saveList();
+
+    if (this.removeToast) {
+      this.removeToast.dismiss();
+    }
+
+    this.removeToast = await this.toastCtrl.create({
+      message: `${removedItem[0].itemName} removido`,
+      duration: 1200,
+      buttons: [{
+        text: 'Desfazer?',
+        handler: () => {
+          this.shoppingCart.cartItems.splice(index, 0, removedItem[0]);
+          this.saveList();
+        }
+      }]
+    });
+
+    this.removeToast.present();
+
+    this.removeToast.onDidDismiss().then(() => {
+      this.removeToast = null;
+    })
   }
 
   public async removeAll() {
@@ -71,7 +95,10 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
     alert.present();
   }
 
-  public inputChange() {
+  public inputChange(item?: ShoppingCartItem) {
+    if (item) {
+      item.value = parseFloat(item.value.toFixed(2));
+    }
     this.saveList();
   }
 

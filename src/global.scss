@@ -79,33 +79,61 @@
   }
 }
 
+$base-padding: 8px;
+
 .padding {
-  padding: 8px;
+  padding: $base-padding;
 
   &-horizontal {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: $base-padding;
+    padding-right: $base-padding;
+
+    &-small {
+      padding-left: calc($base-padding / 2);
+      padding-right: calc($base-padding / 2);
+    }
   }
 
   &-vertical {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: $base-padding;
+    padding-bottom: $base-padding;
+
+    &-small {
+      padding-top: calc($base-padding / 2);
+      padding-bottom: calc($base-padding / 2);
+    }
   }
 
   &-left {
-    padding-left: 8px;
+    padding-left: $base-padding;
+
+    &-small {
+      padding-left: calc($base-padding / 2);
+    }
   }
 
   &-right {
-    padding-right: 8px;
+    padding-right: $base-padding;
+
+    &-small {
+      padding-right: calc($base-padding / 2);
+    }
   }
 
   &-top {
-    padding-top: 8px;
+    padding-top: $base-padding;
+
+    &-small {
+      padding-top: calc($base-padding / 2);
+    }
   }
 
   &-bottom {
-    padding-bottom: 8px;
+    padding-bottom: $base-padding;
+
+    &-small {
+      padding-bottom: calc($base-padding / 2);
+    }
   }
 
   &-none {
@@ -130,11 +158,11 @@
 .item-form-flex {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
 }
 
 .item-line {
-  padding: 0px 8px;
+  padding: 0px $base-padding;
   display: flex;
   width: 100%;
   justify-content: center;
@@ -142,11 +170,15 @@
 }
 
 .custom-card {
-  margin: 8px;
-  padding: 0px 6px;
-  padding-bottom: 8px;
+  margin: calc($base-padding - 2px);
+  padding: 0px $base-padding;
+  padding-bottom: calc($base-padding);
   border: 1px solid #B6B6B6;
   border-radius: 10px;
+
+  &.home {
+    padding-bottom: calc($base-padding * 2);
+  }
 }
 
 .shopping-cart {

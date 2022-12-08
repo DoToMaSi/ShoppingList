@@ -26,39 +26,39 @@
         </ion-reorder>
 
         <div class="custom-card w-100">
-          <div class="item-form-flex">
-            <div class="w-50 padding-horizontal">
+          <div class="item-form-flex padding-horizontal-small">
+            <div class="description-div">
               <ion-item class="ion-no-padding">
                 <ion-label position="stacked">Produto</ion-label>
                 <ion-input #itemNameInput type="text" [(ngModel)]="item.itemName" (ngModelChange)="inputChange()"></ion-input>
               </ion-item>
             </div>
 
-            <div class="w-20">
+            <div class="quantity-div">
               <ion-item class="ion-no-padding">
                 <ion-label position="stacked">QTD</ion-label>
                 <ion-input type="number" [min]="0" [(ngModel)]="item.quantity" (ngModelChange)="inputChange()"></ion-input>
               </ion-item>
             </div>
 
-            <div class="w-30 padding-horizontal">
+            <div class="amount-div">
               <ion-item class="ion-no-padding">
                 <ion-label position="stacked">Valor</ion-label>
-                <ion-input type="number" [min]="0" [(ngModel)]="item.value" (ngModelChange)="inputChange()">
+                <ion-input type="number" [min]="0" [(ngModel)]="item.value" (ngModelChange)="inputChange(item)">
                 </ion-input>
               </ion-item>
             </div>
           </div>
 
           <div class="item-form-flex padding-top">
-            <div class="w-70 flex center-vertical space-between">
+            <div class="w-100 flex center-vertical space-between padding-left">
               <small (click)="copyItem(item, i)" class="fake-button">
                 <b><ion-icon name="copy"></ion-icon> Copiar</b>
               </small>
               <small>Total Item:</small>
             </div>
-            <div class="w-30 flex center-vertical">
-              <small class="padding-horizontal">{{ (item.value * item.quantity) | currency: 'BRL' : 'R$': '1.2-2' }}</small>
+            <div class="amount-div flex center-vertical">
+              <small class="padding-horizontal">{{ (item.value * item.quantity) | currency: 'BRL' : 'R$ ': '1.2-2' }}</small>
             </div>
           </div>
         </div>

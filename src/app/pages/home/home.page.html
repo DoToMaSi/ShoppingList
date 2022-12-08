@@ -20,7 +20,7 @@
       <label>Nenhuma Lista Cadastrada.</label>
     </div>
 
-    <div class="shopping-cart custom-card" *ngFor="let shoppingCart of getShoppingCartList(); let i = index">
+    <div class="shopping-cart custom-card home" *ngFor="let shoppingCart of getShoppingCartList(); let i = index">
       <div class="padding-horizontal flex display-columns gap-8">
         <div id="card-titles">
           <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
@@ -56,9 +56,9 @@
             </form>
           </div>
 
-          <div class="flex space-between">
+          <div class="flex space-between" (click)="accessList(shoppingCart)">
             <label>Itens: {{ shoppingCart?.getCartLength() }}</label>
-            <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$': '1.2-2' }}</label>
+            <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$ ': '1.2-2' }}</label>
           </div>
         </div>
       </div>
