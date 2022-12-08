@@ -1,5 +1,4 @@
-import { BehaviorSubject } from "rxjs";
-import { ShoppingCartItem } from "./shopping-cart-item";
+import { ShoppingCartItem } from './shopping-cart-item';
 
 export class ShoppingCart {
   index: number;
@@ -19,12 +18,13 @@ export class ShoppingCart {
   public getCartTotal(): number {
     if (this.cartItems.length > 0) {
       if (this.cartItems.length === 1) {
-        return (parseFloat(this.cartItems[0].value) * this.cartItems[0].quantity);
+        // return (parseFloat(this.cartItems[0].value) * this.cartItems[0].quantity);
+        return (this.cartItems[0].value * this.cartItems[0].quantity);
       }
 
       return this.cartItems.map((item) => {
-        const itemValue = parseFloat(item.value) > 0 ? parseFloat(item.value) : 0;
-        return itemValue * item.quantity
+        const itemValue = item.value > 0 ? item.value : 0;
+        return itemValue * item.quantity;
       }).reduce((prev, curr) => prev + curr);
     } else {
       return 0;

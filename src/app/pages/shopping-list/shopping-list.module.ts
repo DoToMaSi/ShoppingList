@@ -1,13 +1,12 @@
-import { IonicCurrencyMaskModule } from '@thiagoprz/ionic-currency-mask';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
 import { ShoppingListPageRoutingModule } from './shopping-list-routing.module';
-
 import { ShoppingListPage } from './shopping-list.page';
+
 
 @NgModule({
   imports: [
@@ -15,7 +14,6 @@ import { ShoppingListPage } from './shopping-list.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    IonicCurrencyMaskModule,
     ShoppingListPageRoutingModule
   ],
   declarations: [ShoppingListPage]
