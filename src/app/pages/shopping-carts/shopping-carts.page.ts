@@ -1,5 +1,5 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef, Optional } from '@angular/core';
-import { AlertController, IonContent, IonInput, IonRouterOutlet, Platform } from '@ionic/angular';
+import { AlertController, IonContent, IonInput, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ListService } from 'src/app/services/list.service';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './shopping-carts.page.html',
@@ -33,6 +34,7 @@ export class ShoppingCartsPage implements OnInit {
       private router: Router,
       private platform: Platform,
       private ref: ChangeDetectorRef,
+      private navCtrl: NavController,
       @Optional() private routerOutlet?: IonRouterOutlet
     ) { }
 
@@ -40,6 +42,8 @@ export class ShoppingCartsPage implements OnInit {
     this.platform.backButton.subscribeWithPriority(0, () => {
       if (!this.routerOutlet.canGoBack()) {
         App.exitApp();
+      } else {
+        this.navCtrl.back();
       }
     });
   }
@@ -189,22 +193,8 @@ export class ShoppingCartsPage implements OnInit {
     }, 50);
   }
 
-  public async importListTest() {
-    const str = `
-    Lista: Teste Cópia Objeto
-
-    ===
-
-    - 3× Leite: R$ 4,89 cada;
-    - 2× Pão: R$ 3,89 cada;
-    - 1× Carne Moída: R$ 16,89 cada;
-
-    VALOR TOTAL: R$ 39,34
-
-    ===
-
-    Lista gerada pelo app Shopping Cart. (Não apague os "===" ou o que estiver entre eles, ou seja, os itens da lista)
-    `
-    await this.listService.parseStringToList(str);
+  public importCart() {
+    this.closeListForm();
+    this.router.navigate(['/shopping-carts/import-cart']);
   }
 }

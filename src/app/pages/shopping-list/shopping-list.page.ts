@@ -31,11 +31,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
-    this.platform.backButton.subscribeWithPriority(1, () => {
-      this.navCtrl.back();
-    });
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.loadList();

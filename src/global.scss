@@ -84,6 +84,10 @@ $base-padding: 8px;
 .padding {
   padding: $base-padding;
 
+  &-small {
+    padding: calc($base-padding / 2);
+  }
+
   &-horizontal {
     padding-left: $base-padding;
     padding-right: $base-padding;

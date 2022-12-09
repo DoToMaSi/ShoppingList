@@ -35,7 +35,14 @@ export class ListService {
     }
   }
 
-  public async addShoppingCart(cartForm: { name: string }) {
+  /*
+      index?: number;
+      name: string;
+      edit?: boolean;
+      cartItems?: ShoppingCartItem[];
+  */
+
+  public async addShoppingCart(cartForm: { index?: number, name: string, cartItems?: ShoppingCartItem[], edit?: boolean }) {
     const newShoppingCart = new ShoppingCart({...cartForm});
     this.shoppingCarts.push(newShoppingCart);
 
@@ -124,45 +131,64 @@ export class ListService {
       str += `\n[Esta lista está vazia]\n`;
     }
 
-    str += `\n===\n\nLista gerada pelo app Shopping Cart. (Não apague os "===" ou o que estiver entre eles, ou seja, os itens da lista)`;
+    str += `\n===\n\nLista gerada pelo app Shopping Cart. (NÃO EDITE ESTA MENSAGEM CASO VOCÊ QUEIRA IMPORTAR ISSO PARA O APP)`;
     console.log(str);
     return str;
   }
 
   public async parseStringToList(string: string): Promise<ShoppingCart> {
-    const shoppingCartImport = new ShoppingCart();
-    const strTitleContent = string.replace(/\n/g, '').split('===')[0];
-    if (strTitleContent && strTitleContent.includes('Lista: ')) {
-      shoppingCartImport.name = strTitleContent.replace('Lista: ', '');
-    } else {
-      shoppingCartImport.name = `Lista Importada ${new Date().toISOString()}`;
-    }
-
-    const strListContent = string.replace(/\n/g, '').split('===')[1];
-    if (strListContent) {
-      const itemList = strListContent.trim().split(';').filter((str) => str.includes('-'));
-      console.log(itemList);
-
-      if (itemList.length > 0) {
-        itemList.forEach((item) => {
-          const cartItem: ShoppingCartItem = {
-            itemName: '',
-            quantity: null,
-            value: null
-          };
-
-          const quantityString = item.split('× ')[0];
-          if (quantityString) {
-            cartItem.quantity = parseFloat(quantityString);
-          }
-
-          console.log(cartItem);
-        })
+    try {
+      const shoppingCartImport = new ShoppingCart();
+      const strTitleContent = string.replace(/\n/g, '').split('===')[0];
+      if (strTitleContent && strTitleContent.includes('Lista: ')) {
+        shoppingCartImport.name = strTitleContent.replace('Lista: ', '').trim();
+      } else {
+        shoppingCartImport.name = `Lista Importada ${new Date().toISOString()}`;
       }
 
-      return shoppingCartImport;
-    } else {
-      throw new Error(`Erro ao tentar importar esta Lista de Compras. Verifique o texto copiado e garanta que nada dentro dos "===" foi apagado ou editado. Não apague os "===" também`);
+      const strListContent = string.replace(/\n/g, '').split('===')[1];
+      if (strListContent) {
+        const itemList = strListContent.trim().split(';').filter((str) => str.includes('-'));
+        if (itemList.length > 0) {
+          itemList.forEach((item) => {
+            const cartItem: ShoppingCartItem = {
+              itemName: '',
+              quantity: null,
+              value: null
+            };
+
+            let itemString = '';
+            if (item.includes('×')) {
+              const quantityString = item.split('× ')[0].trim();
+              if (quantityString) {
+                cartItem.quantity = parseFloat(quantityString.split('- ')[1].trim());
+              }
+
+              itemString = item.split('×')[1].trim();
+            } else {
+              itemString = item.split('-')[1].trim();
+            }
+
+            let currencyString = '';
+            if (itemString.includes(': R$')) {
+              const itemStrArr = itemString.split(': R$');
+              itemString = itemStrArr[0].trim();
+              currencyString = itemStrArr[1].split(' cada')[0].trim();
+              cartItem.value = parseFloat(currencyString.split('.').join('').replace(',', '.'));
+            }
+
+            cartItem.itemName = itemString;
+            shoppingCartImport.cartItems.push(cartItem);
+          });
+        }
+
+        return shoppingCartImport;
+      } else {
+        throw new Error(`Erro ao tentar importar esta Lista de Compras. Verifique o texto copiado e garanta que a mensagem está da forma como mostrada no exemplo.`);
+      }
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Erro ao tentar importar esta Lista de Compras. Verifique o texto copiado e garanta que a mensagem está da forma como mostrada no exemplo.`);
     }
   }
 

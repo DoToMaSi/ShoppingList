@@ -1,10 +1,10 @@
 import { ShoppingCartItem } from './shopping-cart-item';
 
 export class ShoppingCart {
-  index: number;
+  index?: number;
   name: string;
   edit?: boolean;
-  cartItems: ShoppingCartItem[];
+  cartItems?: ShoppingCartItem[];
 
   constructor(shoppingCart?: any) {
     this.index = shoppingCart?.index || null;

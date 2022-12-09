@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary" mode="ios">
-    <ion-title (click)="importListTest()">Lista de Compras</ion-title>
+    <ion-title>Lista de Compras</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,6 +12,11 @@
           <ion-label position="floating">Nome da Lista</ion-label>
           <ion-input placeholder="Ex: Compra de Mês - Novembro" formControlName="name"></ion-input>
         </ion-item>
+        <div class="w-100">
+          <ion-button fill="outline" expand="block" (click)="importCart()">
+            <ion-icon name="share" slot="start"></ion-icon>Importar Lista
+          </ion-button>
+        </div>
       </div>
     </form>
 
