@@ -147,7 +147,7 @@ export class ShoppingCartsPage implements OnInit {
   }
 
   public async shareList(shoppingCart: ShoppingCart) {
-    if (this.platform.is('mobile')) {
+    if (this.platform.is('capacitor')) {
       try {
         await this.listService.shareShoppingList(shoppingCart);
       } catch (error) {

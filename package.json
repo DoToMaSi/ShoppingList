@@ -11,9 +11,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate-icon-splash": "npx capacitor-assets generate --android",
-    "capacitor-build": "npx cap copy && npx cap sync",
+    "capacitor-build": "npx cap copy && npx cap sync && npx cap update",
     "build-apk-debug": "cd android && gradlew assembleDebug",
-    "full-build-apk-debug": "npm i && npm run build && npm run generate-icon-splash && npm run capacitor-build && npm run build-apk-debug"
+    "full-build-apk-debug": "npm i && npm run build && npm run capacitor-build && npm run build-apk-debug"
   },
   "private": true,
   "dependencies": {

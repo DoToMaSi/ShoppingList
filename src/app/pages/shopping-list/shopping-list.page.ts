@@ -129,7 +129,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
   }
 
   public async shareShoppingList() {
-    if (this.platform.is('mobile')) {
+    if (this.platform.is('capacitor')) {
       try {
         await this.listService.shareShoppingList(this.shoppingCart);
       } catch (error) {

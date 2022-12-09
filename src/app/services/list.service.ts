@@ -132,7 +132,6 @@ export class ListService {
     }
 
     str += `\n===\n\nLista gerada pelo app Shopping Cart. (NÃO EDITE ESTA MENSAGEM CASO VOCÊ QUEIRA IMPORTAR ISSO PARA O APP)`;
-    console.log(str);
     return str;
   }
 
@@ -195,7 +194,7 @@ export class ListService {
   public async shareShoppingList(shoppingCart: ShoppingCart) {
     try {
       const shoppingCartString = this.parseListToString(shoppingCart);
-      if (this.platform.is('mobile')) {
+      if (this.platform.is('capacitor')) {
         return this.socialSharing.share(shoppingCartString);
       } else {
         return shoppingCartString;
