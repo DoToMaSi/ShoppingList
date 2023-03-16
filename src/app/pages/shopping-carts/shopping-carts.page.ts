@@ -59,7 +59,7 @@ export class ShoppingCartsPage implements OnInit {
 
   public getShoppingCartList() {
     if (this.listService.getShoppingCarts()) {
-      return this.listService.getShoppingCarts().reverse();
+      return this.listService.getShoppingCarts();
     }
   }
 

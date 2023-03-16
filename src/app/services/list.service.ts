@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Platform } from "@ionic/angular";
+import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
-import { ShoppingCart } from "../models/shopping-cart";
-import { StorageService } from "./storage.service";
-import { CurrencyPipe } from "@angular/common";
-import { ShoppingCartItem } from "../models/shopping-cart-item";
+import { ShoppingCart } from '../models/shopping-cart';
+import { StorageService } from './storage.service';
+import { CurrencyPipe } from '@angular/common';
+import { ShoppingCartItem } from '../models/shopping-cart-item';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class ListService {
   }
 
   public getShoppingCarts() {
-    return this.shoppingCarts
+    return this.shoppingCarts;
   }
 
   public getCartById(index: number) {
@@ -42,11 +42,11 @@ export class ListService {
       cartItems?: ShoppingCartItem[];
   */
 
-  public async addShoppingCart(cartForm: { index?: number, name: string, cartItems?: ShoppingCartItem[], edit?: boolean }) {
-    const newShoppingCart = new ShoppingCart({...cartForm});
-    this.shoppingCarts.push(newShoppingCart);
+  public async addShoppingCart(cartForm: { index?: number; name: string; cartItems?: ShoppingCartItem[]; edit?: boolean }) {
+    const newShoppingCart = new ShoppingCart({ ...cartForm });
+    this.shoppingCarts.unshift(newShoppingCart);
 
-    this.shoppingCarts.map((cart, index) => {
+    this.shoppingCarts.forEach((cart, index) => {
       cart.index = (index + 1);
     });
 
@@ -55,12 +55,12 @@ export class ListService {
   }
 
   public async copyShoppingCart(shoppingCart: ShoppingCart, index: number) {
-    const newShoppingCart = new ShoppingCart(JSON.parse(JSON.stringify({...shoppingCart})));
+    const newShoppingCart = new ShoppingCart(JSON.parse(JSON.stringify({ ...shoppingCart })));
     newShoppingCart.name = `${newShoppingCart.name} 2`;
     this.shoppingCarts.splice(index, 0, newShoppingCart);
 
-    this.shoppingCarts.map((cart, index) => {
-      cart.index = (index + 1);
+    this.shoppingCarts.forEach((cart, idx) => {
+      cart.index = (idx + 1);
     });
 
     await this.saveShoppingCart();
@@ -73,10 +73,10 @@ export class ListService {
       this.shoppingCarts = [];
 
       if (shoppingCarts && shoppingCarts.length > 0) {
-        shoppingCarts.map((cart, index) => {
+        shoppingCarts.forEach((cart, index) => {
           cart.index = (index + 1);
           this.shoppingCarts.push(new ShoppingCart(cart));
-        })
+        });
       }
     } catch (error) {
       throw new Error(error);
@@ -135,19 +135,19 @@ export class ListService {
     return str;
   }
 
-  public async parseStringToList(string: string): Promise<ShoppingCart> {
+  public async parseStringToList(str: string): Promise<ShoppingCart> {
     try {
       const shoppingCartImport = new ShoppingCart();
-      const strTitleContent = string.replace(/\n/g, '').split('===')[0];
+      const strTitleContent = str.replace(/\n/g, '').split('===')[0];
       if (strTitleContent && strTitleContent.includes('Lista: ')) {
         shoppingCartImport.name = strTitleContent.replace('Lista: ', '').trim();
       } else {
         shoppingCartImport.name = `Lista Importada ${new Date().toISOString()}`;
       }
 
-      const strListContent = string.replace(/\n/g, '').split('===')[1];
+      const strListContent = str.replace(/\n/g, '').split('===')[1];
       if (strListContent) {
-        const itemList = strListContent.trim().split(';').filter((str) => str.includes('-'));
+        const itemList = strListContent.trim().split(';').filter((strCont) => strCont.includes('-'));
         if (itemList.length > 0) {
           itemList.forEach((item) => {
             const cartItem: ShoppingCartItem = {
@@ -183,11 +183,13 @@ export class ListService {
 
         return shoppingCartImport;
       } else {
-        throw new Error(`Erro ao tentar importar esta Lista de Compras. Verifique o texto copiado e garanta que a mensagem está da forma como mostrada no exemplo.`);
+        throw new Error(`Erro ao tentar importar esta Lista de Compras.
+        Verifique o texto copiado e garanta que a mensagem está da forma como mostrada no exemplo.`);
       }
     } catch (error) {
       console.error(error);
-      throw new Error(`Erro ao tentar importar esta Lista de Compras. Verifique o texto copiado e garanta que a mensagem está da forma como mostrada no exemplo.`);
+      throw new Error(`Erro ao tentar importar esta Lista de Compras.
+      Verifique o texto copiado e garanta que a mensagem está da forma como mostrada no exemplo.`);
     }
   }
 
