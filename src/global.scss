@@ -218,6 +218,10 @@ $base-padding: 8px;
 .flex {
   display: flex;
 
+  .flex-auto-width {
+    flex: 1 1 auto;
+  }
+
   &.flex-basis-auto {
     flex-grow: 1;
     flex-basis: auto;

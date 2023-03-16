@@ -31,9 +31,10 @@
 
             <div id="card-titles">
               <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
-                <h5 class="w-70" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
+                <h5 class="flex-auto-width" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
                 <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
-                <ion-popover #popover mode="ios" [trigger]="'click-trigger-' + i" triggerAction="click">
+                <ion-popover #popover mode="ios" [side]="i < 4 ? 'bottom' : 'top'" alignment="center"
+                 dismissOnSelect="true" reference="event" [trigger]="'click-trigger-' + i" triggerAction="click">
                   <ng-template>
                     <ion-content>
                       <ion-item button (click)="clickEditInput(shoppingCart, i); popover.dismiss()" detail="false" lines="full">

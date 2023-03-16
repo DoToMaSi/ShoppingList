@@ -144,7 +144,6 @@ export class ShoppingCartsPage implements OnInit {
 
   public async handleReorder(reorderEvent: CustomEvent<ItemReorderEventDetail>) {
     reorderEvent.detail.complete(this.getShoppingCartList());
-    console.log(this.getShoppingCartList());
     await this.listService.saveShoppingCart();
   }
 
