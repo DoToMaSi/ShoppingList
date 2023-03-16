@@ -222,6 +222,11 @@ $base-padding: 8px;
     flex: 1 1 auto;
   }
 
+
+  .flex-width {
+    flex: 1 0 auto;
+  }
+
   &.flex-basis-auto {
     flex-grow: 1;
     flex-basis: auto;

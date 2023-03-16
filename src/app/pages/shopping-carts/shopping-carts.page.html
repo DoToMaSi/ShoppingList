@@ -10,7 +10,8 @@
       <div class="custom-card" [hidden]="(newListFormOpen | async) === false">
         <ion-item fill="outline" class="padding">
           <ion-label position="floating">Nome da Lista</ion-label>
-          <ion-input placeholder="Ex: Compra de Mês - Novembro" formControlName="name"></ion-input>
+          <ion-input type="text" maxlength="24"
+            placeholder="Ex: Compra de Mês - Novembro" formControlName="name"></ion-input>
         </ion-item>
         <div class="w-100">
           <ion-button fill="outline" expand="block" (click)="importCart()">
@@ -28,10 +29,9 @@
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
       <div class="shopping-cart custom-card home" *ngFor="let shoppingCart of getShoppingCartList(); let i = index">
         <div class="padding-horizontal flex display-columns gap-8">
-
             <div id="card-titles">
               <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
-                <h5 class="flex-auto-width" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
+                <h5 class="flex-auto-width w-100" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
                 <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
                 <ion-popover #popover mode="ios" [side]="i < 4 ? 'bottom' : 'top'" alignment="center"
                  dismissOnSelect="true" reference="event" [trigger]="'click-trigger-' + i" triggerAction="click">

@@ -59,7 +59,7 @@ export class ShoppingListPage implements AfterViewInit {
     }
 
     this.removeToast = await this.toastCtrl.create({
-      message: `${removedItem[0].itemName} removido`,
+      message: `${removedItem[0]?.itemName || 'Item'} removido`,
       duration: 1200,
       buttons: [{
         text: 'Desfazer?',
