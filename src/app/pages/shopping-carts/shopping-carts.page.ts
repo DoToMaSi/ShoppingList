@@ -1,5 +1,5 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef, Optional } from '@angular/core';
-import { AlertController, IonContent, IonInput, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { AlertController, IonContent, IonInput, IonRouterOutlet, ItemReorderEventDetail, NavController, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
@@ -24,7 +24,6 @@ export class ShoppingCartsPage implements OnInit {
     name: new FormControl('')
   });
   public shoppingCart: ShoppingCart;
-  public shoppingList: ShoppingCartItem[] = [];
 
   constructor(
     private listService: ListService,
@@ -141,6 +140,12 @@ export class ShoppingCartsPage implements OnInit {
     });
 
     alert.present();
+  }
+
+  public async handleReorder(reorderEvent: CustomEvent<ItemReorderEventDetail>) {
+    reorderEvent.detail.complete(this.getShoppingCartList());
+    console.log(this.getShoppingCartList());
+    await this.listService.saveShoppingCart();
   }
 
   public async shareList(shoppingCart: ShoppingCart) {

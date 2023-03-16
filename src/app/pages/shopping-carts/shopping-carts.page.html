@@ -25,52 +25,56 @@
       <label>Nenhuma Lista Cadastrada.</label>
     </div>
 
-    <div class="shopping-cart custom-card home" *ngFor="let shoppingCart of getShoppingCartList(); let i = index">
-      <div class="padding-horizontal flex display-columns gap-8">
-        <div id="card-titles">
-          <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
-            <h5 class="w-70" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
-            <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
-            <ion-popover #popover mode="ios" [trigger]="'click-trigger-' + i" triggerAction="click">
-              <ng-template>
-                <ion-content>
-                  <ion-item button (click)="clickEditInput(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
-                    <ion-icon name="create" slot="start"></ion-icon>Editar Nome
-                  </ion-item>
-                  <ion-item button (click)="copyList(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
-                    <ion-icon name="copy" slot="start"></ion-icon>Duplicar
-                  </ion-item>
-                  <ion-item button (click)="shareList(shoppingCart); popover.dismiss()" detail="false" lines="full">
-                    <ion-icon name="share-social" slot="start"></ion-icon>Compartilhar
-                  </ion-item>
-                  <ion-item button (click)="removeList(shoppingCart); popover.dismiss()" detail="false" lines="none">
-                    <ion-icon name="trash" slot="start"></ion-icon>Remover
-                  </ion-item>
-                </ion-content>
-              </ng-template>
-            </ion-popover>
-          </div>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+      <div class="shopping-cart custom-card home" *ngFor="let shoppingCart of getShoppingCartList(); let i = index">
+        <div class="padding-horizontal flex display-columns gap-8">
 
-          <div [hidden]="!(shoppingCart?.edit)">
-            <form class="padding-none" (submit)="saveEditInput(shoppingCart)">
-              <ion-item class="padding-bottom">
-                <ion-input #inputNameInputList [(ngModel)]="shoppingCart.name" [ngModelOptions]="{standalone: true}" type="text"></ion-input>
-                <ion-buttons slot="end">
-                  <ion-button (click)="saveEditInput(shoppingCart)">
-                    <ion-icon name="checkmark"></ion-icon>
-                  </ion-button>
-                </ion-buttons>
-              </ion-item>
-            </form>
-          </div>
+            <div id="card-titles">
+              <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
+                <h5 class="w-70" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
+                <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
+                <ion-popover #popover mode="ios" [trigger]="'click-trigger-' + i" triggerAction="click">
+                  <ng-template>
+                    <ion-content>
+                      <ion-item button (click)="clickEditInput(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
+                        <ion-icon name="create" slot="start"></ion-icon>Editar Nome
+                      </ion-item>
+                      <ion-item button (click)="copyList(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
+                        <ion-icon name="copy" slot="start"></ion-icon>Duplicar
+                      </ion-item>
+                      <ion-item button (click)="shareList(shoppingCart); popover.dismiss()" detail="false" lines="full">
+                        <ion-icon name="share-social" slot="start"></ion-icon>Compartilhar
+                      </ion-item>
+                      <ion-item button (click)="removeList(shoppingCart); popover.dismiss()" detail="false" lines="none">
+                        <ion-icon name="trash" slot="start"></ion-icon>Remover
+                      </ion-item>
+                    </ion-content>
+                  </ng-template>
+                </ion-popover>
+              </div>
 
-          <div class="flex space-between" (click)="accessList(shoppingCart)">
-            <label>Itens: {{ shoppingCart?.getCartLength() }}</label>
-            <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$': '1.2-2' }}</label>
-          </div>
+              <div [hidden]="!(shoppingCart?.edit)">
+                <form class="padding-none" (submit)="saveEditInput(shoppingCart)">
+                  <ion-item class="padding-bottom">
+                    <ion-input #inputNameInputList [(ngModel)]="shoppingCart.name" [ngModelOptions]="{standalone: true}" type="text"></ion-input>
+                    <ion-buttons slot="end">
+                      <ion-button (click)="saveEditInput(shoppingCart)">
+                        <ion-icon name="checkmark"></ion-icon>
+                      </ion-button>
+                    </ion-buttons>
+                  </ion-item>
+                </form>
+              </div>
+              <ion-reorder>
+                <div class="flex space-between" (click)="accessList(shoppingCart)">
+                  <label>Itens: {{ shoppingCart?.getCartLength() }}</label>
+                  <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$': '1.2-2' }}</label>
+                </div>
+              </ion-reorder>
+            </div>
         </div>
       </div>
-    </div>
+    </ion-reorder-group>
   </ion-list>
 
   <ion-fab slot="fixed" horizontal="end" vertical="bottom">

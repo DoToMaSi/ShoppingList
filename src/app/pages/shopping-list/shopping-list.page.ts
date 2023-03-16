@@ -12,7 +12,8 @@ import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
   templateUrl: './shopping-list.page.html',
   styleUrls: ['./shopping-list.page.scss'],
 })
-export class ShoppingListPage implements OnInit, AfterViewInit {
+
+export class ShoppingListPage implements AfterViewInit {
 
   @ViewChildren('itemNameInput') public inputNameInputList: QueryList<IonInput>;
   @ViewChild('homeContent') public homeContent: IonContent;
@@ -31,8 +32,6 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {}
-
   ngAfterViewInit() {
     this.loadList();
   }
@@ -44,7 +43,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
       value: null
     });
 
-    setTimeout( async () => {
+    setTimeout(async () => {
       const ionInputArray = this.inputNameInputList.toArray();
       await this.saveList();
       await ionInputArray[ionInputArray.length - 1].setFocus();
@@ -75,7 +74,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
 
     this.removeToast.onDidDismiss().then(() => {
       this.removeToast = null;
-    })
+    });
   }
 
   public async removeAll() {
@@ -86,7 +85,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
       buttons: [{
         text: 'Cancelar',
         role: 'cancel'
-      },{
+      }, {
         text: 'Sim',
         handler: () => {
           this.saveList(true);
@@ -107,7 +106,7 @@ export class ShoppingListPage implements OnInit, AfterViewInit {
   public getTotal(): number {
     let totalValue = 0;
     if (this.shoppingCart.cartItems && this.shoppingCart.cartItems.length > 0) {
-      this.shoppingCart.cartItems.map((item) => {
+      this.shoppingCart.cartItems.forEach((item) => {
         const itemQuantity = (item.quantity > 0 ? item.quantity : 0);
         const itemValue = (item.value > 0 ? item.value : 0);
         totalValue += (itemValue * itemQuantity);
