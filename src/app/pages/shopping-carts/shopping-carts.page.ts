@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ListService } from 'src/app/services/list.service';
-import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './shopping-carts.page.html',
@@ -28,15 +27,15 @@ export class ShoppingCartsPage implements OnInit {
   public shoppingList: ShoppingCartItem[] = [];
 
   constructor(
-      private listService: ListService,
-      private toast: ToastUtils,
-      private alertCtrl: AlertController,
-      private router: Router,
-      private platform: Platform,
-      private ref: ChangeDetectorRef,
-      private navCtrl: NavController,
-      @Optional() private routerOutlet?: IonRouterOutlet
-    ) { }
+    private listService: ListService,
+    private toast: ToastUtils,
+    private alertCtrl: AlertController,
+    private router: Router,
+    private platform: Platform,
+    private ref: ChangeDetectorRef,
+    private navCtrl: NavController,
+    @Optional() private routerOutlet?: IonRouterOutlet
+  ) { }
 
   public ngOnInit() {
     this.platform.backButton.subscribeWithPriority(0, () => {
@@ -47,8 +46,6 @@ export class ShoppingCartsPage implements OnInit {
       }
     });
   }
-
-  public ngAfterViewInit() {}
 
   public newListButton() {
     this.newListFormOpen.next(true);
@@ -70,7 +67,7 @@ export class ShoppingCartsPage implements OnInit {
     this.newListFormOpen.next(false);
     const newListForm = this.newListForm.value as { name: string };
 
-    if (newListForm.name.trim()) {
+    if (newListForm?.name?.trim()) {
       try {
         const shoppingCart = await this.listService.addShoppingCart(newListForm);
         this.listService.loadShoppingCarts();
@@ -98,7 +95,7 @@ export class ShoppingCartsPage implements OnInit {
       buttons: [{
         text: 'Cancelar',
         role: 'cancel'
-      },{
+      }, {
         text: 'Sim',
         handler: async () => {
           try {
@@ -112,7 +109,7 @@ export class ShoppingCartsPage implements OnInit {
           }
         }
       }]
-    })
+    });
 
     alert.present();
     this.ref.detectChanges();
@@ -127,7 +124,7 @@ export class ShoppingCartsPage implements OnInit {
       buttons: [{
         text: 'Cancelar',
         role: 'cancel'
-      },{
+      }, {
         text: 'Sim',
         handler: async () => {
           try {
@@ -141,7 +138,7 @@ export class ShoppingCartsPage implements OnInit {
           }
         }
       }]
-    })
+    });
 
     alert.present();
   }
@@ -176,7 +173,7 @@ export class ShoppingCartsPage implements OnInit {
 
   public async clickEditInput(shoppingCart: ShoppingCart, index: number) {
     shoppingCart.edit = true;
-    setTimeout( async () => {
+    setTimeout(async () => {
       if (this.inputNameInputList) {
         const ionInputArray = this.inputNameInputList.toArray();
         await ionInputArray[index].setFocus();

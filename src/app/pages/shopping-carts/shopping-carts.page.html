@@ -7,7 +7,7 @@
 <ion-content #homeContent>
   <ion-list>
     <form [formGroup]="newListForm" class="padding-none" (submit)="saveNewList()">
-      <div class="custom-card" [hidden]="!(newListFormOpen | async)">
+      <div class="custom-card" [hidden]="(newListFormOpen | async) === false">
         <ion-item fill="outline" class="padding">
           <ion-label position="floating">Nome da Lista</ion-label>
           <ion-input placeholder="Ex: Compra de Mês - Novembro" formControlName="name"></ion-input>
@@ -20,7 +20,7 @@
       </div>
     </form>
 
-    <div *ngIf="!(newListFormOpen | async) && (getShoppingCartList()?.length === 0)" class="no-item-div">
+    <div *ngIf="(newListFormOpen | async) === false  && (getShoppingCartList()?.length === 0)" class="no-item-div">
       <ion-icon size="large" name="cart-outline"></ion-icon>
       <label>Nenhuma Lista Cadastrada.</label>
     </div>
@@ -78,7 +78,7 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
 
-    <ion-fab-button (click)="saveNewList()" color="success" [hidden]="!(newListFormOpen | async)">
+    <ion-fab-button (click)="saveNewList()" color="success" [hidden]="(newListFormOpen | async) === false">
       <ion-icon name="checkmark-circle-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
