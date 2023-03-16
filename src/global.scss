@@ -25,6 +25,10 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+:root {
+  --ion-background-color: var(--ion-color-light);
+}
+
 .w {
   &-100 {
     width: 100%;
@@ -146,7 +150,7 @@ $base-padding: 8px;
 }
 
 .fake-button {
-  color: #3880ff;
+  color: var(--ion-color-primary);
 }
 
 .no-item-div {
