@@ -6,11 +6,12 @@
 
 <ion-content #homeContent>
   <ion-list>
+
     <form [formGroup]="newListForm" class="padding-none" (submit)="saveNewList()">
       <div class="custom-card" [hidden]="(newListFormOpen | async) === false">
-        <ion-item fill="outline" class="padding">
+        <ion-item fill="outline" class="sl-item padding">
           <ion-label position="floating">Nome da Lista</ion-label>
-          <ion-input type="text" maxlength="24"
+          <ion-input type="text" maxlength="24" class="sl-input"
             placeholder="Ex: Compra de Mês - Novembro" formControlName="name"></ion-input>
         </ion-item>
         <div class="w-100">
@@ -79,12 +80,12 @@
   </ion-list>
 
   <ion-fab slot="fixed" horizontal="end" vertical="bottom">
-    <ion-fab-button (click)="newListButton()" [hidden]="(newListFormOpen | async)">
+    <ion-fab-button (click)="newListButton()" *ngIf="(newListFormOpen | async) === false">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
 
-    <ion-fab-button (click)="saveNewList()" color="success" [hidden]="(newListFormOpen | async) === false">
+    <!-- <ion-fab-button (click)="saveNewList()" color="success" [hidden]="(newListFormOpen | async) === false">
       <ion-icon name="checkmark-circle-outline"></ion-icon>
-    </ion-fab-button>
+    </ion-fab-button> -->
   </ion-fab>
 </ion-content>
