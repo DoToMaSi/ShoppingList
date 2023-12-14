@@ -38,7 +38,7 @@
       <div class="shopping-cart custom-card home" *ngFor="let shoppingCart of getShoppingCartList(); let i = index">
         <div class="padding-horizontal flex display-columns gap-8">
             <div id="card-titles">
-              <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
+              <div class="flex space-between center-vertical pd-4 mr-b-8" *ngIf="!(shoppingCart?.edit)">
                 <h5 class="flex-auto-width w-100" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
                 <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
 
@@ -67,8 +67,8 @@
                 </ion-popover>
               </div>
 
-              <div [hidden]="!(shoppingCart?.edit)">
-                <form class="pd-0" (submit)="saveEditInput(shoppingCart)">
+              <div *ngIf="(shoppingCart?.edit)">
+                <form class="pd-h-4" (submit)="saveEditInput(shoppingCart)">
                   <ion-item class="padding-bottom">
                     <ion-input #inputNameInputList [(ngModel)]="shoppingCart.name" [ngModelOptions]="{standalone: true}" type="text"></ion-input>
                     <ion-buttons slot="end">
@@ -80,7 +80,7 @@
                 </form>
               </div>
               <ion-reorder>
-                <div class="flex space-between" (click)="accessList(shoppingCart)">
+                <div class="flex space-between pd-4" (click)="accessList(shoppingCart)">
                   <label>Itens: {{ shoppingCart?.getCartLength() }}</label>
                   <label>Total: {{ shoppingCart?.getCartTotal() | currency: 'BRL' : 'R$': '1.2-2' }}</label>
                 </div>
@@ -95,9 +95,5 @@
     <ion-fab-button (click)="newListButton()" *ngIf="(newListFormOpen()) === false">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-
-    <!-- <ion-fab-button (click)="saveNewList()" color="success" [hidden]="(newListFormOpen | async) === false">
-      <ion-icon name="checkmark-circle-outline"></ion-icon>
-    </ion-fab-button> -->
   </ion-fab>
 </ion-content>

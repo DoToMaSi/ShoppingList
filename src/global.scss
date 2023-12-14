@@ -79,14 +79,9 @@ $base-padding: 8px;
 
 .custom-card {
   margin: calc($base-padding - 2px);
-  padding: 0px $base-padding;
-  padding-bottom: calc($base-padding);
+  padding: $base-padding;
   border: 1px solid #B6B6B6;
   border-radius: 10px;
-
-  &.home {
-    padding-bottom: calc($base-padding * 2);
-  }
 }
 
 .shopping-cart {
@@ -155,5 +150,11 @@ $base-padding: 8px;
   &.display-columns {
     flex-direction: column;
   }
+}
+
+//
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
