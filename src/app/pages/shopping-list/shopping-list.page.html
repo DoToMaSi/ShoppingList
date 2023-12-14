@@ -11,11 +11,11 @@
       <ion-popover #popover mode="ios" trigger="actions-popover" triggerAction="click">
         <ng-template>
           <ion-content>
-            <ion-item button (click)="removeAll(); popover.dismiss()" detail="false" lines="full">
+            <ion-item class="popover-menu-item" button (click)="removeAll(); popover.dismiss()" detail="false" lines="full">
               <ion-icon slot="start" name="trash-bin-outline"></ion-icon> Limpar Lista
             </ion-item>
 
-            <ion-item button (click)="shareShoppingList(); popover.dismiss()" detail="false" lines="none">
+            <ion-item class="popover-menu-item" button (click)="shareShoppingList(); popover.dismiss()" detail="false" lines="none">
               <ion-icon slot="start" name="share-social"></ion-icon> Compartilhar
             </ion-item>
           </ion-content>
@@ -42,34 +42,37 @@
           <div class="item-form-flex padding-horizontal-small">
             <div class="description-div">
               <ion-item class="ion-no-padding">
-                <ion-label position="stacked">Produto</ion-label>
-                <ion-input #itemNameInput type="text" [(ngModel)]="item.itemName" (ngModelChange)="inputChange()"></ion-input>
+                <ion-input #itemNameInput label="Produto" labelPlacement="stacked"
+                  type="text" [(ngModel)]="item.itemName" (ngModelChange)="inputChange()">
+                </ion-input>
               </ion-item>
             </div>
 
             <div class="quantity-div">
               <ion-item class="ion-no-padding">
-                <ion-label position="stacked">QTD</ion-label>
-                <ion-input type="number" [min]="0" [(ngModel)]="item.quantity" (ngModelChange)="inputChange()"></ion-input>
+                <ion-input label="QTD" labelPlacement="stacked"
+                  type="number" [min]="0" [(ngModel)]="item.quantity" (ngModelChange)="inputChange()">
+                </ion-input>
               </ion-item>
             </div>
 
             <div class="amount-div">
               <ion-item class="ion-no-padding">
-                <ion-label position="stacked">Valor</ion-label>
-                <ion-input type="number" [min]="0" [(ngModel)]="item.value" (ngModelChange)="inputChange(item)">
+                <ion-input label="Valor" labelPlacement="stacked"
+                  type="number" [min]="0" [(ngModel)]="item.value" (ngModelChange)="inputChange(item)">
                 </ion-input>
               </ion-item>
             </div>
           </div>
 
-          <div class="item-form-flex padding-top">
+          <div class="item-form-flex pd-t-4">
             <div class="w-100 flex center-vertical space-between padding-left">
               <small (click)="copyItem(item, i)" class="fake-button">
                 <b><ion-icon name="copy"></ion-icon> Duplicar</b>
               </small>
               <small>Sub-Total:</small>
             </div>
+
             <div class="amount-div flex center-vertical">
               <small class="padding-horizontal">{{ (item.value * item.quantity) | currency: 'BRL' : 'R$': '1.2-2' }}</small>
             </div>
@@ -81,7 +84,7 @@
       </div>
     </ion-reorder-group>
 
-    <div class="padding-horizontal full-button-line">
+    <div class="pd-h-4 full-button-line">
       <ion-button fill="outline" expand="block" (click)="addItem()">
         <ion-icon name="add-circle" slot="start"></ion-icon>Adicionar Item
       </ion-button>

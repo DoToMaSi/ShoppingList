@@ -38,10 +38,24 @@
       }
     }
 
-    .input-label-placement-floating {
-      &:not(.has-focus), &:not(.has-value) {
+    .input-label-placement{
+      &-floating {
+        &:not(.has-focus), &:not(.has-value) {
+          .label-text-wrapper {
+            transform: translateY(144%) scale(1);
+          }
+        }
+      }
+
+      &-stacked {
+        min-height: 48px;
         .label-text-wrapper {
-          transform: translateY(144%) scale(1);
+          transform: translateY(0%) scale(0.75) !important;
+          font-weight: bold;
+        }
+
+        .native-wrapper {
+          transform: translateY(-12%) !important;
         }
       }
     }

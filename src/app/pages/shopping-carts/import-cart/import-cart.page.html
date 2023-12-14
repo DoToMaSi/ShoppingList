@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <header class="padding">
+  <header class="pd-8">
     <h4><b>Como Usar?</b></h4>
     <p>Para importar uma lista para o aplicativo, basta você <b>copiar a mensagem</b> ou o texto que o aplicativo gera quando você Compartilha uma de suas listas
       (veja os botões "Compartilhar" na listagem das listas ou dentro delas). <b>Mensagens criadas manualmente não vão funcionar!</b></p>
@@ -31,10 +31,9 @@
     <p>Basta <b>copiar</b> a lista que você recebeu da mesma forma como está no exemplo, <b>colar</b> no campo abaixo e apertar o "Importar"</p>
   </header>
 
-  <div class="padding-horizontal">
-    <ion-item fill="outline">
-      <ion-label position="floating">Copie a Lista aqui</ion-label>
-      <ion-textarea type="text" [(ngModel)]="inputTextList"></ion-textarea>
+  <div class="pd-h-8">
+    <ion-item>
+      <ion-textarea label="Copie a Lista aqui" labelPlacement="floating" type="text" [(ngModel)]="inputTextList"></ion-textarea>
     </ion-item>
   </div>
 </ion-content>

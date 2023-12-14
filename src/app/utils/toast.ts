@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { ToastController } from "@ionic/angular";
+import { Injectable } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,7 @@ import { ToastController } from "@ionic/angular";
 
 export class ToastUtils {
 
-  constructor(private toastCtrl: ToastController) {}
+  constructor(private toastCtrl: ToastController) { }
 
   public async display(msg: string) {
     const toast = await this.toastCtrl.create({
