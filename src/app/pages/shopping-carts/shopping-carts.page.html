@@ -7,22 +7,29 @@
 <ion-content #homeContent>
   <ion-list>
 
-    <form [formGroup]="newListForm" class="padding-none" (submit)="saveNewList()">
-      <div class="custom-card" [hidden]="(newListFormOpen | async) === false">
-        <ion-item fill="outline" class="sl-item padding">
-          <ion-label position="floating">Nome da Lista</ion-label>
-          <ion-input type="text" maxlength="24" class="sl-input"
+    <form [formGroup]="newListForm" class="pd-0" (submit)="saveNewList()">
+      <div class="custom-card" [hidden]="(newListFormOpen()) === false">
+        <ion-item class="pd-4">
+          <ion-input label="Nome da Lista" labelPlacement="floating"
+            type="text" maxlength="24" class="sl-input"
             placeholder="Ex: Compra de Mês - Novembro" formControlName="name"></ion-input>
         </ion-item>
+
         <div class="w-100">
-          <ion-button fill="outline" expand="block" (click)="importCart()">
-            <ion-icon name="share" slot="start"></ion-icon>Importar Lista
+          <ion-button color="secondary" fill="outline" expand="block" (click)="importCart()">
+            <ion-icon name="share" slot="start"></ion-icon>Importar
+          </ion-button>
+        </div>
+
+        <div class="w-100">
+          <ion-button fill="outline" expand="block" (click)="saveNewList()">
+            <ion-icon name="save" slot="start"></ion-icon>Salvar Lista
           </ion-button>
         </div>
       </div>
     </form>
 
-    <div *ngIf="(newListFormOpen | async) === false  && (getShoppingCartList()?.length === 0)" class="no-item-div">
+    <div *ngIf="(newListFormOpen()) === false  && (getShoppingCartList()?.length === 0)" class="no-item-div">
       <ion-icon size="large" name="cart-outline"></ion-icon>
       <label>Nenhuma Lista Cadastrada.</label>
     </div>
@@ -34,20 +41,25 @@
               <div class="flex space-between center-vertical" [hidden]="(shoppingCart?.edit)">
                 <h5 class="flex-auto-width w-100" (click)="accessList(shoppingCart)"><b>{{ shoppingCart?.name }}</b></h5>
                 <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
+
                 <ion-popover #popover mode="ios" [side]="i < 4 ? 'bottom' : 'top'" alignment="center"
                  dismissOnSelect="true" reference="event" [trigger]="'click-trigger-' + i" triggerAction="click">
                   <ng-template>
                     <ion-content>
-                      <ion-item button (click)="clickEditInput(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
+                      <ion-item button (click)="clickEditInput(shoppingCart, i); popover.dismiss()" detail="false" lines="full"
+                        class="popover-menu-item">
                         <ion-icon name="create" slot="start"></ion-icon>Editar Nome
                       </ion-item>
-                      <ion-item button (click)="copyList(shoppingCart, i); popover.dismiss()" detail="false" lines="full">
+                      <ion-item button (click)="copyList(shoppingCart, i); popover.dismiss()" detail="false" lines="full"
+                        class="popover-menu-item">
                         <ion-icon name="copy" slot="start"></ion-icon>Duplicar
                       </ion-item>
-                      <ion-item button (click)="shareList(shoppingCart); popover.dismiss()" detail="false" lines="full">
+                      <ion-item button (click)="shareList(shoppingCart); popover.dismiss()" detail="false" lines="full"
+                        class="popover-menu-item">
                         <ion-icon name="share-social" slot="start"></ion-icon>Compartilhar
                       </ion-item>
-                      <ion-item button (click)="removeList(shoppingCart); popover.dismiss()" detail="false" lines="none">
+                      <ion-item button (click)="removeList(shoppingCart); popover.dismiss()" detail="false" lines="none"
+                        class="popover-menu-item">
                         <ion-icon name="trash" slot="start"></ion-icon>Remover
                       </ion-item>
                     </ion-content>
@@ -56,7 +68,7 @@
               </div>
 
               <div [hidden]="!(shoppingCart?.edit)">
-                <form class="padding-none" (submit)="saveEditInput(shoppingCart)">
+                <form class="pd-0" (submit)="saveEditInput(shoppingCart)">
                   <ion-item class="padding-bottom">
                     <ion-input #inputNameInputList [(ngModel)]="shoppingCart.name" [ngModelOptions]="{standalone: true}" type="text"></ion-input>
                     <ion-buttons slot="end">
@@ -80,7 +92,7 @@
   </ion-list>
 
   <ion-fab slot="fixed" horizontal="end" vertical="bottom">
-    <ion-fab-button (click)="newListButton()" *ngIf="(newListFormOpen | async) === false">
+    <ion-fab-button (click)="newListButton()" *ngIf="(newListFormOpen()) === false">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
 

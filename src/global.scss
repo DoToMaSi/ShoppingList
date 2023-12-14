@@ -25,129 +25,30 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+@import "./theme/helpers/sizing.scss";
+@import "./theme/helpers/spacing.scss";
+
 :root {
   --ion-background-color: var(--ion-color-light);
-}
 
-.w {
-  &-100 {
-    width: 100%;
-  }
+  ion-item {
+    &:not(.popover-menu-item) {
+      &::part(native) {
+        padding-left: 0px !important;
+      }
+    }
 
-  &-90 {
-    width: 90%;
-  }
-
-  &-80 {
-    width: 80%;
-  }
-
-  &-70 {
-    width: 70%;
-  }
-
-  &-60 {
-    width: 60%;
-  }
-
-  &-50 {
-    width: 50%;
-  }
-
-  &-47 {
-    width: 47%;
-  }
-
-  &-45 {
-    width: 45%;
-  }
-
-  &-40 {
-    width: 40%;
-  }
-
-  &-30 {
-    width: 30%;
-  }
-
-  &-20 {
-    width: 20%;
-  }
-
-  &-10 {
-    width: 10%;
-  }
-
-  &-auto {
-    width: auto;
+    .input-label-placement-floating {
+      &:not(.has-focus), &:not(.has-value) {
+        .label-text-wrapper {
+          transform: translateY(144%) scale(1);
+        }
+      }
+    }
   }
 }
 
 $base-padding: 8px;
-
-.padding {
-  padding: $base-padding;
-
-  &-small {
-    padding: calc($base-padding / 2);
-  }
-
-  &-horizontal {
-    padding-left: $base-padding;
-    padding-right: $base-padding;
-
-    &-small {
-      padding-left: calc($base-padding / 2);
-      padding-right: calc($base-padding / 2);
-    }
-  }
-
-  &-vertical {
-    padding-top: $base-padding;
-    padding-bottom: $base-padding;
-
-    &-small {
-      padding-top: calc($base-padding / 2);
-      padding-bottom: calc($base-padding / 2);
-    }
-  }
-
-  &-left {
-    padding-left: $base-padding;
-
-    &-small {
-      padding-left: calc($base-padding / 2);
-    }
-  }
-
-  &-right {
-    padding-right: $base-padding;
-
-    &-small {
-      padding-right: calc($base-padding / 2);
-    }
-  }
-
-  &-top {
-    padding-top: $base-padding;
-
-    &-small {
-      padding-top: calc($base-padding / 2);
-    }
-  }
-
-  &-bottom {
-    padding-bottom: $base-padding;
-
-    &-small {
-      padding-bottom: calc($base-padding / 2);
-    }
-  }
-
-  &-none {
-    padding: 0px !important;
-  }
-}
 
 .fake-button {
   color: var(--ion-color-primary);
@@ -166,7 +67,6 @@ $base-padding: 8px;
 .item-form-flex {
   width: 100%;
   display: flex;
-  // flex-wrap: wrap;
 }
 
 .item-line {
@@ -254,10 +154,6 @@ $base-padding: 8px;
 
   &.display-columns {
     flex-direction: column;
-  }
-
-  &.gap-8 {
-    gap: 8px;
   }
 }
 

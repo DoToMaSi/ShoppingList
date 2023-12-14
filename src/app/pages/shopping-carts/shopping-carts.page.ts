@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef, Optional } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef, Optional, signal } from '@angular/core';
 import { AlertController, IonContent, IonInput, IonRouterOutlet, ItemReorderEventDetail, NavController, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 
@@ -19,7 +19,9 @@ export class ShoppingCartsPage implements OnInit {
   @ViewChildren('inputNameInputList') inputNameInputList: QueryList<IonInput>;
   @ViewChild('homeContent') public homeContent: IonContent;
 
-  public newListFormOpen = new BehaviorSubject(false);
+  public newListFormOpen = signal(false);
+
+  // public newListFormOpen = new BehaviorSubject(false);
   public newListForm = new FormGroup({
     name: new FormControl('')
   });
@@ -47,12 +49,12 @@ export class ShoppingCartsPage implements OnInit {
   }
 
   public newListButton() {
-    this.newListFormOpen.next(true);
+    this.newListFormOpen.set(true);
     this.newListForm.reset();
   }
 
   public closeListForm() {
-    this.newListFormOpen.next(false);
+    this.newListFormOpen.set(false);
     this.newListForm.reset();
   }
 
@@ -63,7 +65,7 @@ export class ShoppingCartsPage implements OnInit {
   }
 
   public async saveNewList() {
-    this.newListFormOpen.next(false);
+    this.newListFormOpen.set(false);
     const newListForm = this.newListForm.value as { name: string };
 
     if (newListForm?.name?.trim()) {

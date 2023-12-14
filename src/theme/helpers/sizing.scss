@@ -1,0 +1,11 @@
+$value: 1;
+
+@while $value <= 100 {
+  .w {
+    &-#{$value} {
+      width: #{$value}#{'%'};
+    }
+  }
+
+  $value: ($value + 1);
+}

@@ -1,0 +1,77 @@
+$maxvalue: 16;
+$value: 0;
+
+@while $value <= $maxvalue {
+  .pd {
+    &-#{$value} {
+      padding: #{$value}#{'px'};
+    }
+
+    &-v-#{$value} {
+      padding-top: #{$value}#{'px'};
+      padding-bottom: #{$value}#{'px'};
+    }
+
+    &-h-#{$value} {
+      padding-left: #{$value}#{'px'};
+      padding-right: #{$value}#{'px'};
+    }
+
+    &-t-#{$value} {
+      padding-top: #{$value}#{'px'};
+    }
+
+    &-l-#{$value} {
+      padding-left: #{$value}#{'px'};
+    }
+
+    &-b-#{$value} {
+      padding-bottom: #{$value}#{'px'};
+    }
+
+    &-r-#{$value} {
+      padding-right: #{$value}#{'px'};
+    }
+  }
+
+  .mr {
+    &-#{$value} {
+      margin: #{$value}#{'px'};
+    }
+
+    &-v-#{$value} {
+      margin-top: #{$value}#{'px'};
+      margin-bottom: #{$value}#{'px'};
+    }
+
+    &-h-#{$value} {
+      margin-left: #{$value}#{'px'};
+      margin-right: #{$value}#{'px'};
+    }
+
+    &-t-#{$value} {
+      margin-top: #{$value}#{'px'};
+    }
+
+    &-l-#{$value} {
+      margin-left: #{$value}#{'px'};
+    }
+
+    &-b-#{$value} {
+      margin-bottom: #{$value}#{'px'};
+    }
+
+    &r-#{$value} {
+      margin-right: #{$value}#{'px'};
+    }
+  }
+
+
+  .gap {
+    &-#{$value} {
+      gap: #{$value}#{'px'};
+    }
+  }
+
+  $value: ($value + 2);
+}
