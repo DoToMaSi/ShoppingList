@@ -30,4 +30,10 @@ describe('ListService', () => {
   it('should create the service', () => {
     expect(listService).toBeTruthy();
   });
+
+  it('should call the \'getShoppingCartsSpy\' method', () => {
+    const getShoppingCartsSpy = spyOn(listService, 'getShoppingCarts');
+    listService.getShoppingCarts();
+    expect(getShoppingCartsSpy).toHaveBeenCalledTimes(1);
+  });
 });
