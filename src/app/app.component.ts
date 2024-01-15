@@ -6,8 +6,11 @@ import { StorageService } from './services/storage.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
+
 export class AppComponent {
-  constructor(public storageService: StorageService) {
+  constructor(public storageService: StorageService) {}
+
+  ngOnInit() {
     this.storageService.init();
   }
 }
