@@ -3,7 +3,6 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 import { StorageService } from './services/storage.service';
-import { StorageServiceMock } from './tests/mocks/storage.service.mock';
 
 describe('AppComponent', () => {
 
@@ -20,7 +19,6 @@ describe('AppComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-
   }));
 
   it('should create the app', () => {
