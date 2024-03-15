@@ -30,14 +30,14 @@ jobs:
       - name: Build Ionic App
         run: npm run build
 
-      # - name: Capacitor Update
-      #   run: npx cap update
+      - name: Capacitor Copy
+        run: npx cap add android
 
       - name: Capacitor Copy
-        run: npx cap copy
+        run: npx cap copy android
 
       - name: Capacitor Sync
-        run: npx cap sync
+        run: npx cap sync android
 
       - name: Build APP bundle
         run: cd android && gradle bundle
