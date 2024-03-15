@@ -30,8 +30,8 @@ jobs:
       - name: Build Ionic App
         run: npm run build
 
-      - name: Capacitor Add
-        run: npx cap add android
+      # - name: Capacitor Add
+      #   run: npx cap add android
 
       - name: Capacitor Copy
         run: npx cap copy
