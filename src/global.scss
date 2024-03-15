@@ -38,17 +38,10 @@
       }
     }
 
-    .input-label-placement{
-      &-floating {
-        &:not(.has-focus), &:not(.has-value) {
-          .label-text-wrapper {
-            transform: translateY(144%) scale(1);
-          }
-        }
-      }
-
+    .input-label-placement {
       &-stacked {
         min-height: 48px;
+
         .label-text-wrapper {
           transform: translateY(0%) scale(0.75) !important;
           font-weight: bold;
@@ -167,8 +160,12 @@ $base-padding: 8px;
 }
 
 //
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0px;
   margin-bottom: 0px;
 }
-
