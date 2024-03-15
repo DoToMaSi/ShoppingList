@@ -24,6 +24,10 @@ allprojects {
     }
 }
 
+android {
+    namespace "br.com.rockettsally.shoppinglist"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
