@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace "br.com.rockettsally.shoppinglist"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "br.com.rockettsally.shoppinglist"
