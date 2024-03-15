@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
             distribution: 'zulu'
-            java-version: '11'
+            java-version: '21'
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -30,8 +30,8 @@ jobs:
       - name: Build Ionic App
         run: npm run build
 
-      # - name: Capacitor Update
-      #   run: npx cap update
+      - name: Capacitor Add
+        run: npx cap add android
 
       - name: Capacitor Copy
         run: npx cap copy
@@ -42,7 +42,7 @@ jobs:
       - name: Build APP bundle
         run: cd android && chmod +x gradlew && ./gradlew assembleDebug
 
-      - name: Upload Release Bundle
+      - name: Upload Debug APK
         uses: actions/upload-artifact@v2
         with:
           name: app-debug
