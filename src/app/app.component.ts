@@ -8,7 +8,8 @@ import { StorageService } from './services/storage.service';
 })
 
 export class AppComponent {
-  constructor(public storageService: StorageService) {}
+
+  constructor(public storageService: StorageService) { }
 
   ngOnInit() {
     this.storageService.init();

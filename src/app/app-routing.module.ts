@@ -4,22 +4,22 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'shopping-carts',
+    redirectTo: 'lists',
     pathMatch: 'full'
   },
   {
-    path: 'shopping-carts',
-    loadChildren: () => import('./pages/shopping-carts/shopping-carts.module').then( m => m.ShoppingCartsPageModule)
+    path: 'lists',
+    loadChildren: () => import('./pages/lists/lists.module').then(m => m.ListsModule)
   },
-  {
-    path: 'shopping-list',
-    redirectTo: 'shopping-carts',
-    pathMatch: 'full'
-  },
-  {
-    path: 'shopping-list/:id',
-    loadChildren: () => import('./pages/shopping-list/shopping-list.module').then( m => m.ShoppingListPageModule)
-  },
+  // {
+  //   path: 'shopping-list',
+  //   redirectTo: 'shopping-carts',
+  //   pathMatch: 'full'
+  // },
+  // {
+  //   path: 'shopping-list/:id',
+  //   loadChildren: () => import('./pages/shopping-list/shopping-list.module').then( m => m.ShoppingListPageModule)
+  // },
 
 ];
 

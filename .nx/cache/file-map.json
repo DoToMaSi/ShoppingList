@@ -1,6 +1,6 @@
 {
   "version": "6.0",
-  "nxVersion": "13.1.3",
+  "nxVersion": "17.2.8",
   "deps": {
     "@angular/animations": "17.2.0",
     "@angular/common": "17.2.0",
@@ -458,7 +458,7 @@
       },
       {
         "file": "package.json",
-        "hash": "3032420693253670195"
+        "hash": "6095051163515503437"
       },
       {
         "file": "resources/android/icon-background.png",
@@ -693,67 +693,67 @@
         "hash": "5912592663873924436"
       },
       {
-        "file": "src/app/pages/shopping-carts/import-cart/import-cart.page.html",
+        "file": "src/app/pages/legacy/shopping-carts/import-cart/import-cart.page.html",
         "hash": "5196167547840533288"
       },
       {
-        "file": "src/app/pages/shopping-carts/import-cart/import-cart.page.scss",
+        "file": "src/app/pages/legacy/shopping-carts/import-cart/import-cart.page.scss",
         "hash": "9774473115424498251"
       },
       {
-        "file": "src/app/pages/shopping-carts/import-cart/import-cart.page.spec.ts",
+        "file": "src/app/pages/legacy/shopping-carts/import-cart/import-cart.page.spec.ts",
         "hash": "6297250034945905809"
       },
       {
-        "file": "src/app/pages/shopping-carts/import-cart/import-cart.page.ts",
+        "file": "src/app/pages/legacy/shopping-carts/import-cart/import-cart.page.ts",
         "hash": "15763166230081364266"
       },
       {
-        "file": "src/app/pages/shopping-carts/shopping-carts-routing.module.ts",
+        "file": "src/app/pages/legacy/shopping-carts/shopping-carts-routing.module.ts",
         "hash": "1416564037842156195"
       },
       {
-        "file": "src/app/pages/shopping-carts/shopping-carts.module.ts",
+        "file": "src/app/pages/legacy/shopping-carts/shopping-carts.module.ts",
         "hash": "5381561586885318227"
       },
       {
-        "file": "src/app/pages/shopping-carts/shopping-carts.page.html",
+        "file": "src/app/pages/legacy/shopping-carts/shopping-carts.page.html",
         "hash": "1126645607115591134"
       },
       {
-        "file": "src/app/pages/shopping-carts/shopping-carts.page.scss",
+        "file": "src/app/pages/legacy/shopping-carts/shopping-carts.page.scss",
         "hash": "15036214574332298676"
       },
       {
-        "file": "src/app/pages/shopping-carts/shopping-carts.page.spec.ts",
+        "file": "src/app/pages/legacy/shopping-carts/shopping-carts.page.spec.ts",
         "hash": "4343214813983591803"
       },
       {
-        "file": "src/app/pages/shopping-carts/shopping-carts.page.ts",
+        "file": "src/app/pages/legacy/shopping-carts/shopping-carts.page.ts",
         "hash": "13427485079316981155"
       },
       {
-        "file": "src/app/pages/shopping-list/shopping-list-routing.module.ts",
+        "file": "src/app/pages/legacy/shopping-list/shopping-list-routing.module.ts",
         "hash": "12754492744773780727"
       },
       {
-        "file": "src/app/pages/shopping-list/shopping-list.module.ts",
+        "file": "src/app/pages/legacy/shopping-list/shopping-list.module.ts",
         "hash": "8087586610288403326"
       },
       {
-        "file": "src/app/pages/shopping-list/shopping-list.page.html",
+        "file": "src/app/pages/legacy/shopping-list/shopping-list.page.html",
         "hash": "1817898305649890821"
       },
       {
-        "file": "src/app/pages/shopping-list/shopping-list.page.scss",
+        "file": "src/app/pages/legacy/shopping-list/shopping-list.page.scss",
         "hash": "10112258846381539726"
       },
       {
-        "file": "src/app/pages/shopping-list/shopping-list.page.spec.ts",
+        "file": "src/app/pages/legacy/shopping-list/shopping-list.page.spec.ts",
         "hash": "16099811241845940733"
       },
       {
-        "file": "src/app/pages/shopping-list/shopping-list.page.ts",
+        "file": "src/app/pages/legacy/shopping-list/shopping-list.page.ts",
         "hash": "8093014375308080185"
       },
       {
@@ -814,7 +814,7 @@
       },
       {
         "file": "src/polyfills.ts",
-        "hash": "4849083717853271885"
+        "hash": "8873083570888261428"
       },
       {
         "file": "src/test.ts",
