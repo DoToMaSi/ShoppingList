@@ -30,7 +30,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss"
+            ],
             "scripts": [],
             "aot": false,
             "vendorChunk": true,
@@ -87,36 +90,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "buildTarget": "app:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "watch": true,
-            "styles": [],
-            "scripts": [],
-            "assets": [
-              {
-                "glob": "favicon.ico",
-                "input": "src/",
-                "output": "/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "/assets"
-              }
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "progress": false,
-              "watch": false
-            }
           }
         },
         "lint": {
