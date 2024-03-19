@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+  <ion-toolbar>
+    <ion-title>{{ 'SHOPPING_LIST.CREATE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="listForm" class="pd-8">
+    <ion-list>
+      <ion-item>
+        <ion-input type="text" name="listName" label="{{ 'SHOPPING_LIST.NAME' | translate }}" labelPlacement="floating"
+          formControlName="listName">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input type="tel" name="target" label="{{ 'SHOPPING_LIST.TARGET' | translate }}" labelPlacement="floating"
+          formControlName="target">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-select name="listType" label="{{ 'SHOPPING_LIST.TYPE' | translate }}" labelPlacement="floating"
+          formControlName="listType" interface="action-sheet">
+          <ion-select-option value="list">
+            {{ 'SHOPPING_LIST.TYPES.LIST' | translate }}
+          </ion-select-option>
+
+          <ion-select-option value="cart">
+            {{ 'SHOPPING_LIST.TYPES.CART' | translate }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

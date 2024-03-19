@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'SHOPPING_LIST.TITLE' | translate | uppercase }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @for (list of shoppingLists; track list.index) {
+  <p>List</p>
+  } @empty {
+  <div class="no-item-div">
+    <ion-icon size="large" name="cart-outline"></ion-icon>
+    <span>Nenhuma Lista Cadastrada.</span>
+  </div>
+  }
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="createNewList()" id="open-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal trigger="open-modal">
+    <ng-template>
+      <list-form></list-form>
+    </ng-template>
+  </ion-modal>
+</ion-content>

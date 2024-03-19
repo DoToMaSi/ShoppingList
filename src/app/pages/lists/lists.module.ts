@@ -4,9 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ListRoutingModule } from './list-routing.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { ListFormComponent } from './list-form/list-form.component';
 
 const declarations = [
-  ListsComponent
+  ListsComponent,
+  ListFormComponent
 ];
 
 const imports = [
@@ -14,12 +17,17 @@ const imports = [
   FormsModule,
   IonicModule,
   ReactiveFormsModule,
-  ListRoutingModule
+  ListRoutingModule,
+  TranslateModule
 ];
 
 @NgModule({
-  declarations,
-  imports
+  declarations: [
+    ...declarations
+  ],
+  imports: [
+    ...imports
+  ]
 })
 
 export class ListsModule { }

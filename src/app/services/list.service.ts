@@ -12,7 +12,7 @@ import { ShoppingCartItem } from '../models/shopping-cart-item';
 
 export class ListService {
 
-  private shoppingCarts: ShoppingCart[];
+  private shoppingLists: ShoppingCart[];
 
   constructor(
     private storageService: StorageService,
@@ -24,12 +24,12 @@ export class ListService {
   }
 
   public getShoppingCarts() {
-    return this.shoppingCarts;
+    return this.shoppingLists;
   }
 
   public getCartById(index: number) {
-    if (this.shoppingCarts) {
-      return this.shoppingCarts.find((cart) => cart.index === index);
+    if (this.shoppingLists) {
+      return this.shoppingLists.find((cart) => cart.index === index);
     } else {
       return null;
     }
@@ -44,9 +44,9 @@ export class ListService {
 
   public async addShoppingCart(cartForm: { index?: number; name: string; cartItems?: ShoppingCartItem[]; edit?: boolean }) {
     const newShoppingCart = new ShoppingCart({ ...cartForm });
-    this.shoppingCarts.unshift(newShoppingCart);
+    this.shoppingLists.unshift(newShoppingCart);
 
-    this.shoppingCarts.forEach((cart, index) => {
+    this.shoppingLists.forEach((cart, index) => {
       cart.index = (index + 1);
     });
 
@@ -57,9 +57,9 @@ export class ListService {
   public async copyShoppingCart(shoppingCart: ShoppingCart, index: number) {
     const newShoppingCart = new ShoppingCart(JSON.parse(JSON.stringify({ ...shoppingCart })));
     newShoppingCart.name = `${newShoppingCart.name} 2`;
-    this.shoppingCarts.splice(index, 0, newShoppingCart);
+    this.shoppingLists.splice(index, 0, newShoppingCart);
 
-    this.shoppingCarts.forEach((cart, idx) => {
+    this.shoppingLists.forEach((cart, idx) => {
       cart.index = (idx + 1);
     });
 
@@ -69,13 +69,13 @@ export class ListService {
 
   public async loadShoppingCarts() {
     try {
-      const shoppingCarts = await this.storageService.get('shoppingCarts') as any[];
-      this.shoppingCarts = [];
+      const shoppingLists = await this.storageService.get('shoppingLists') as any[];
+      this.shoppingLists = [];
 
-      if (shoppingCarts && shoppingCarts.length > 0) {
-        shoppingCarts.forEach((cart, index) => {
+      if (shoppingLists && shoppingLists.length > 0) {
+        shoppingLists.forEach((cart, index) => {
           cart.index = (index + 1);
-          this.shoppingCarts.push(new ShoppingCart(cart));
+          this.shoppingLists.push(new ShoppingCart(cart));
         });
       }
     } catch (error) {
@@ -85,22 +85,22 @@ export class ListService {
 
   public async removeShoppingCart(cart?: ShoppingCart) {
     if (cart) {
-      const cartIndex = this.shoppingCarts.findIndex((cartList) => cartList.index === cart.index);
-      this.shoppingCarts.splice(cartIndex, 1);
+      const cartIndex = this.shoppingLists.findIndex((cartList) => cartList.index === cart.index);
+      this.shoppingLists.splice(cartIndex, 1);
 
-      return await this.storageService.set('shoppingCarts', this.shoppingCarts);
+      return await this.storageService.set('shoppingLists', this.shoppingLists);
     }
   }
 
   public async saveShoppingCart(cart?: ShoppingCart) {
     if (cart) {
-      const cartIndex = this.shoppingCarts.findIndex((cartList) => cartList.index === cart.index);
+      const cartIndex = this.shoppingLists.findIndex((cartList) => cartList.index === cart.index);
       if (cartIndex !== -1) {
-        this.shoppingCarts[cartIndex] = cart;
+        this.shoppingLists[cartIndex] = cart;
       }
     }
 
-    return await this.storageService.set('shoppingCarts', this.shoppingCarts);
+    return await this.storageService.set('shoppingLists', this.shoppingLists);
   }
 
   public parseListToString(shoppingCart: ShoppingCart): string {
@@ -195,11 +195,11 @@ export class ListService {
 
   public async shareShoppingList(shoppingCart: ShoppingCart) {
     try {
-      const shoppingCartString = this.parseListToString(shoppingCart);
+      const shoppingListsString = this.parseListToString(shoppingCart);
       if (this.platform.is('capacitor')) {
-        return this.socialSharing.share(shoppingCartString);
+        return this.socialSharing.share(shoppingListsString);
       } else {
-        return shoppingCartString;
+        return shoppingListsString;
       }
     } catch (error) {
       console.error(error);

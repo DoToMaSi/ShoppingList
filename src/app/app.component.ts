@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { StorageService } from './services/storage.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,14 @@ import { StorageService } from './services/storage.service';
 })
 
 export class AppComponent {
-
-  constructor(public storageService: StorageService) { }
+  constructor(
+    public storageService: StorageService,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit() {
     this.storageService.init();
+    this.translate.setDefaultLang('en');
+    this.translate.use(this.translate.getBrowserLang());
   }
 }

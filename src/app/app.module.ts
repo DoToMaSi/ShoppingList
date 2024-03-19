@@ -9,6 +9,14 @@ import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { CurrencyPipe, registerLocaleData } from '@angular/common';
 
 import localePt from '@angular/common/locales/pt';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 registerLocaleData(localePt);
 
@@ -20,7 +28,16 @@ registerLocaleData(localePt);
       mode: 'ios'
     }),
     AppRoutingModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -30,4 +47,5 @@ registerLocaleData(localePt);
   ],
   bootstrap: [AppComponent],
 })
+
 export class AppModule { }

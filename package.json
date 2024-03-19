@@ -37,6 +37,8 @@
     "@capacitor/status-bar": "^5.0.7",
     "@ionic/angular": "^7.8.0",
     "@ionic/storage-angular": "^4.0.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "cordova-plugin-x-socialsharing": "^6.0.4",
     "es6-promise-plugin": "^4.2.2",
     "rxjs": "^7.5.0",

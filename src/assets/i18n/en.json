@@ -1,0 +1,10 @@
+{
+  "HELLO": "Hello",
+  "SHOPPING_LIST": {
+    "TITLE": "Super List",
+    "CREATE": "Create List",
+    "NAME": "List Name",
+    "TARGET": "Target Value",
+    "TYPE": "List Type"
+  }
+}

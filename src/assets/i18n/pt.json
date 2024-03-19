@@ -1,0 +1,14 @@
+{
+  "HELLO": "Olá",
+  "SHOPPING_LIST": {
+    "TITLE": "Super Lista",
+    "CREATE": "Criar Lista",
+    "NAME": "Nome da Lista",
+    "TARGET": "Valor Máximo",
+    "TYPE": "Tipo de Lista",
+    "TYPES": {
+      "LIST": "Lista de Compras",
+      "CART": "Carrinho de Compras"
+    }
+  }
+}

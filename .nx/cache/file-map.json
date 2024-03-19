@@ -20,6 +20,8 @@
     "@capacitor/status-bar": "^5.0.7",
     "@ionic/angular": "^7.8.0",
     "@ionic/storage-angular": "^4.0.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "cordova-plugin-x-socialsharing": "^6.0.4",
     "es6-promise-plugin": "^4.2.2",
     "rxjs": "^7.5.0",
@@ -458,7 +460,7 @@
       },
       {
         "file": "package.json",
-        "hash": "6095051163515503437"
+        "hash": "3547586705683774231"
       },
       {
         "file": "resources/android/icon-background.png",
@@ -662,7 +664,7 @@
       },
       {
         "file": "src/app/app-routing.module.ts",
-        "hash": "8668387675829449698"
+        "hash": "3747889409678597073"
       },
       {
         "file": "src/app/app.component.html",
@@ -678,11 +680,11 @@
       },
       {
         "file": "src/app/app.component.ts",
-        "hash": "17337109875022410358"
+        "hash": "7807903090707908738"
       },
       {
         "file": "src/app/app.module.ts",
-        "hash": "9537971845257673485"
+        "hash": "4491707205778212442"
       },
       {
         "file": "src/app/models/shopping-cart-item.ts",
@@ -757,12 +759,52 @@
         "hash": "8093014375308080185"
       },
       {
+        "file": "src/app/pages/lists/list-form/list-form.component.html",
+        "hash": "10741415458805923340"
+      },
+      {
+        "file": "src/app/pages/lists/list-form/list-form.component.scss",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/pages/lists/list-form/list-form.component.spec.ts",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/pages/lists/list-form/list-form.component.ts",
+        "hash": "6820616875089731156"
+      },
+      {
+        "file": "src/app/pages/lists/list-routing.module.ts",
+        "hash": "17526827467423898294"
+      },
+      {
+        "file": "src/app/pages/lists/lists.component.html",
+        "hash": "7652842738702144956"
+      },
+      {
+        "file": "src/app/pages/lists/lists.component.scss",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/pages/lists/lists.component.spec.ts",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/pages/lists/lists.component.ts",
+        "hash": "7354572993841612571"
+      },
+      {
+        "file": "src/app/pages/lists/lists.module.ts",
+        "hash": "13540249883335696706"
+      },
+      {
         "file": "src/app/services/list.service.spec.ts",
         "hash": "12862705618615811059"
       },
       {
         "file": "src/app/services/list.service.ts",
-        "hash": "5573085333987534075"
+        "hash": "9165861449171457797"
       },
       {
         "file": "src/app/services/storage.service.spec.ts",
@@ -779,6 +821,14 @@
       {
         "file": "src/app/utils/toast.ts",
         "hash": "15407185598807963454"
+      },
+      {
+        "file": "src/assets/i18n/en.json",
+        "hash": "16552749115187721052"
+      },
+      {
+        "file": "src/assets/i18n/pt.json",
+        "hash": "11042043864031843201"
       },
       {
         "file": "src/assets/icon/favicon.png",

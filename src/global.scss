@@ -39,6 +39,14 @@
     }
 
     .input-label-placement {
+      &-floating {
+        &:not(.has-focus, .has-value) {
+          .label-text-wrapper {
+            transform: translateY(144%) scale(1) !important;
+          }
+        }
+      }
+
       &-stacked {
         min-height: 48px;
 
