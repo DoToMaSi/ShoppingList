@@ -1,10 +1,28 @@
 {
   "HELLO": "Hello",
+  "OK": "OK",
+  "SAVE": "Save",
+  "CANCEL": "Cancel",
+  "EXAMPLE_ABBREV": "e.g.: {{value}}",
+  "EXAMPLE_VALUE": "March Groceries",
+  "ERROR": "Error",
   "SHOPPING_LIST": {
+    "ERROR_SAVE": "Error while saving the List",
     "TITLE": "Super List",
     "CREATE": "Create List",
     "NAME": "List Name",
     "TARGET": "Target Value",
-    "TYPE": "List Type"
+    "TYPE": "List Type",
+    "TYPES": {
+      "LIST": "Shopping List",
+      "CART": "Shopping Cart",
+      "HELPER": "The \"List Type\" field defines whether you want a simple list, containing only the product name, or a shopping cart, containing the quantity and value",
+      "HELPER_END": "You can convert your List into a Cart later, but you can NOT convert a Cart into a List"
+    },
+    "VALIDATION": {
+      "HELPER_NAME": "Type a nice name for your List",
+      "HELPER_TARGET": "Define a target value for this list",
+      "NAME": "List Name is required"
+    }
   }
 }

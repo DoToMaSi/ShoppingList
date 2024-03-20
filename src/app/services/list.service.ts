@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
-import { ShoppingCart } from '../models/shopping-cart';
 import { StorageService } from './storage.service';
 import { CurrencyPipe } from '@angular/common';
-import { ShoppingCartItem } from '../models/shopping-cart-item';
+import { List } from '../models/list.model';
+import { IListItem } from '../models/list-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { ShoppingCartItem } from '../models/shopping-cart-item';
 
 export class ListService {
 
-  private shoppingLists: ShoppingCart[];
+  private lists: List[];
 
   constructor(
     private storageService: StorageService,
@@ -20,62 +20,55 @@ export class ListService {
     private platform: Platform,
     private currencyPipe: CurrencyPipe
   ) {
-    this.loadShoppingCarts();
+    this.loadLists();
   }
 
-  public getShoppingCarts() {
-    return this.shoppingLists;
+  public getLists() {
+    return this.lists;
   }
 
-  public getCartById(index: number) {
-    if (this.shoppingLists) {
-      return this.shoppingLists.find((cart) => cart.index === index);
+  public getListById(index: number) {
+    if (this.lists) {
+      return this.lists.find((list) => list.index === index);
     } else {
       return null;
     }
   }
 
-  /*
-      index?: number;
-      name: string;
-      edit?: boolean;
-      cartItems?: ShoppingCartItem[];
-  */
+  public async addList(list: List) {
+    this.lists.unshift(list);
 
-  public async addShoppingCart(cartForm: { index?: number; name: string; cartItems?: ShoppingCartItem[]; edit?: boolean }) {
-    const newShoppingCart = new ShoppingCart({ ...cartForm });
-    this.shoppingLists.unshift(newShoppingCart);
-
-    this.shoppingLists.forEach((cart, index) => {
-      cart.index = (index + 1);
+    this.lists.forEach((list, index) => {
+      list.index = (index + 1);
     });
 
-    await this.saveShoppingCart();
-    return newShoppingCart;
+    await this.saveList();
+    return list;
   }
 
-  public async copyShoppingCart(shoppingCart: ShoppingCart, index: number) {
-    const newShoppingCart = new ShoppingCart(JSON.parse(JSON.stringify({ ...shoppingCart })));
-    newShoppingCart.name = `${newShoppingCart.name} 2`;
-    this.shoppingLists.splice(index, 0, newShoppingCart);
+  public async copyList(list: List, index: number) {
+    const newList = new List(JSON.parse(JSON.stringify({ ...list })));
+    list.listName = `${list.listName} 2`;
+    this.lists.splice(index, 0, newList);
 
-    this.shoppingLists.forEach((cart, idx) => {
-      cart.index = (idx + 1);
+    this.lists.forEach((listItem, idx) => {
+      listItem.index = (idx + 1);
     });
 
-    await this.saveShoppingCart();
-    return newShoppingCart;
+    await this.saveList();
+    return list;
   }
 
-  public async loadShoppingCarts() {
+  public async loadLists() {
     try {
-      const shoppingLists = await this.storageService.get('shoppingLists') as any[];
-      this.shoppingLists = [];
+      const lists = await this.storageService.get('lists') as any[];
+      this.lists = [];
 
-      if (shoppingLists && shoppingLists.length > 0) {
-        shoppingLists.forEach((cart, index) => {
-          cart.index = (index + 1);
-          this.shoppingLists.push(new ShoppingCart(cart));
+      if (lists && lists.length > 0) {
+        console.log(lists);
+        lists.forEach((list, index) => {
+          list.index = (index + 1);
+          this.lists.push(new List(list));
         });
       }
     } catch (error) {
@@ -83,49 +76,49 @@ export class ListService {
     }
   }
 
-  public async removeShoppingCart(cart?: ShoppingCart) {
-    if (cart) {
-      const cartIndex = this.shoppingLists.findIndex((cartList) => cartList.index === cart.index);
-      this.shoppingLists.splice(cartIndex, 1);
+  public async removeList(list?: List) {
+    if (list) {
+      const cartIndex = this.lists.findIndex((cartList) => cartList.index === list.index);
+      this.lists.splice(cartIndex, 1);
 
-      return await this.storageService.set('shoppingLists', this.shoppingLists);
+      return await this.storageService.set('lists', this.lists);
     }
   }
 
-  public async saveShoppingCart(cart?: ShoppingCart) {
-    if (cart) {
-      const cartIndex = this.shoppingLists.findIndex((cartList) => cartList.index === cart.index);
-      if (cartIndex !== -1) {
-        this.shoppingLists[cartIndex] = cart;
+  public async saveList(list?: List) {
+    if (list) {
+      const index = this.lists.findIndex((listItem) => listItem.index === list.index);
+      if (index !== -1) {
+        this.lists[index] = list;
       }
     }
 
-    return await this.storageService.set('shoppingLists', this.shoppingLists);
+    return await this.storageService.set('lists', this.lists);
   }
 
-  public parseListToString(shoppingCart: ShoppingCart): string {
-    let str = `Lista: ${shoppingCart.name}\n\n===\n`;
-    if (shoppingCart.cartItems.length > 0) {
-      shoppingCart.cartItems.forEach((cartItem, index) => {
-        if (cartItem.itemName) {
+  public parseListToString(list: List): string {
+    let str = `Lista: ${list.listName}\n\n===\n`;
+    if (list.items.length > 0) {
+      list.items.forEach((listItem, index) => {
+        if (listItem.itemName) {
           str += `\n- `;
-          if (cartItem.quantity) {
-            str += `${cartItem.quantity}× `;
+          if (listItem.quantity) {
+            str += `${listItem.quantity}× `;
           }
-          str += `${cartItem.itemName}`;
-          if (cartItem.value) {
-            str += `: ${this.currencyPipe.transform(cartItem.value, 'BRL', 'R$', '1.2-2')} cada`;
+          str += `${listItem.itemName}`;
+          if (listItem.value) {
+            str += `: ${this.currencyPipe.transform(listItem.value, 'BRL', 'R$', '1.2-2')} cada`;
           }
           str += `;`;
         }
 
-        if (index === (shoppingCart.cartItems.length - 1)) {
+        if (index === (list.items.length - 1)) {
           str += `\n`;
         }
       });
 
-      if (shoppingCart.getCartTotal()) {
-        str += `\nVALOR TOTAL: ${this.currencyPipe.transform(shoppingCart.getCartTotal(), 'BRL', 'R$', '1.2-2')}\n`;
+      if (list.getCartTotal()) {
+        str += `\nVALOR TOTAL: ${this.currencyPipe.transform(list.getCartTotal(), 'BRL', 'R$', '1.2-2')}\n`;
       }
     } else {
       str += `\n[Esta lista está vazia]\n`;
@@ -135,14 +128,14 @@ export class ListService {
     return str;
   }
 
-  public async parseStringToList(str: string): Promise<ShoppingCart> {
+  public async parseStringToList(str: string): Promise<List> {
     try {
-      const shoppingCartImport = new ShoppingCart();
+      const listImport = new List();
       const strTitleContent = str.replace(/\n/g, '').split('===')[0];
       if (strTitleContent && strTitleContent.includes('Lista: ')) {
-        shoppingCartImport.name = strTitleContent.replace('Lista: ', '').trim();
+        listImport.listName = strTitleContent.replace('Lista: ', '').trim();
       } else {
-        shoppingCartImport.name = `Lista Importada ${new Date().toISOString()}`;
+        listImport.listName = `Lista Importada ${new Date().toISOString()}`;
       }
 
       const strListContent = str.replace(/\n/g, '').split('===')[1];
@@ -150,7 +143,7 @@ export class ListService {
         const itemList = strListContent.trim().split(';').filter((strCont) => strCont.includes('-'));
         if (itemList.length > 0) {
           itemList.forEach((item) => {
-            const cartItem: ShoppingCartItem = {
+            const listItem: IListItem = {
               itemName: '',
               quantity: null,
               value: null
@@ -160,7 +153,7 @@ export class ListService {
             if (item.includes('×')) {
               const quantityString = item.split('× ')[0].trim();
               if (quantityString) {
-                cartItem.quantity = parseFloat(quantityString.split('- ')[1].trim());
+                listItem.quantity = parseFloat(quantityString.split('- ')[1].trim());
               }
 
               itemString = item.split('×')[1].trim();
@@ -173,15 +166,15 @@ export class ListService {
               const itemStrArr = itemString.split(': R$');
               itemString = itemStrArr[0].trim();
               currencyString = itemStrArr[1].split(' cada')[0].trim();
-              cartItem.value = parseFloat(currencyString.split('.').join('').replace(',', '.'));
+              listItem.value = parseFloat(currencyString.split('.').join('').replace(',', '.'));
             }
 
-            cartItem.itemName = itemString;
-            shoppingCartImport.cartItems.push(cartItem);
+            listItem.itemName = itemString;
+            listImport.items.push(listItem);
           });
         }
 
-        return shoppingCartImport;
+        return listImport;
       } else {
         throw new Error(`Erro ao tentar importar esta Lista de Compras.
         Verifique o texto copiado e garanta que a mensagem está da forma como mostrada no exemplo.`);
@@ -193,13 +186,13 @@ export class ListService {
     }
   }
 
-  public async shareShoppingList(shoppingCart: ShoppingCart) {
+  public async shareShoppingList(list: List) {
     try {
-      const shoppingListsString = this.parseListToString(shoppingCart);
+      const listsString = this.parseListToString(list);
       if (this.platform.is('capacitor')) {
-        return this.socialSharing.share(shoppingListsString);
+        return this.socialSharing.share(listsString);
       } else {
-        return shoppingListsString;
+        return listsString;
       }
     } catch (error) {
       console.error(error);

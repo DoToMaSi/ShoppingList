@@ -31,6 +31,16 @@
 :root {
   --ion-background-color: var(--ion-color-light);
 
+  .modal-default {
+    &::part(content) {
+      width: 90vw;
+      max-width: 400px;
+      max-height: 560px;
+    }
+
+    --border-radius: 10px;
+  }
+
   ion-item {
     &:not(.popover-menu-item) {
       &::part(native) {
@@ -38,7 +48,8 @@
       }
     }
 
-    .input-label-placement {
+    .input-label-placement,
+    .select-label-placement-floating {
       &-floating {
         &:not(.has-focus, .has-value) {
           .label-text-wrapper {

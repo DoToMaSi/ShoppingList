@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { ListsComponent } from './lists.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ListRoutingModule } from './list-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { ListFormComponent } from './list-form/list-form.component';
+import { CustomCurrencyDirective } from 'src/app/utils/directives/custom-currency.directive';
 
 const declarations = [
   ListsComponent,
-  ListFormComponent
+  ListFormComponent,
+  CustomCurrencyDirective
 ];
 
 const imports = [
@@ -21,12 +23,21 @@ const imports = [
   TranslateModule
 ];
 
+const providers = [
+  CurrencyPipe,
+  DecimalPipe,
+  CustomCurrencyDirective
+]
+
 @NgModule({
   declarations: [
     ...declarations
   ],
   imports: [
     ...imports
+  ],
+  providers: [
+    ...providers
   ]
 })
 

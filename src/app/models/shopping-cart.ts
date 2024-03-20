@@ -16,7 +16,6 @@ export class ShoppingCart {
   public getCartTotal(): number {
     if (this.cartItems.length > 0) {
       if (this.cartItems.length === 1) {
-        // return (parseFloat(this.cartItems[0].value) * this.cartItems[0].quantity);
         return (this.cartItems[0].value * this.cartItems[0].quantity);
       }
 

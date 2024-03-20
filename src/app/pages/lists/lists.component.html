@@ -5,24 +5,64 @@
 </ion-header>
 
 <ion-content>
-  @for (list of shoppingLists; track list.index) {
-  <p>List</p>
-  } @empty {
-  <div class="no-item-div">
-    <ion-icon size="large" name="cart-outline"></ion-icon>
-    <span>Nenhuma Lista Cadastrada.</span>
-  </div>
-  }
+
+  <ion-list>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+      @for (list of lists; track list.index; let i = $index) {
+      <div class="shopping-cart custom-card home">
+        <div class="padding-horizontal flex display-columns gap-8">
+          <div id="card-titles">
+            <div class="flex space-between center-vertical pd-4 mr-b-8">
+              <h5 class="flex-auto-width w-100" (click)="accessList(list)"><b>{{ list?.listName }}</b></h5>
+              <ion-icon [id]="'click-trigger-' + i" name="ellipsis-vertical"></ion-icon>
+
+              <ion-popover #popover mode="ios" [side]="i < 4 ? 'bottom' : 'top'" alignment="center"
+                dismissOnSelect="true" reference="event" [trigger]="'click-trigger-' + i" triggerAction="click">
+                <ng-template>
+                  <ion-content>
+                    <ion-item button (click)="editList(list, i); popover.dismiss()" detail="false" lines="full"
+                      class="popover-menu-item">
+                      <ion-icon name="create" slot="start"></ion-icon>Editar Lista
+                    </ion-item>
+                    <ion-item button (click)="copyList(list, i); popover.dismiss()" detail="false" lines="full"
+                      class="popover-menu-item">
+                      <ion-icon name="copy" slot="start"></ion-icon>Duplicar
+                    </ion-item>
+                    <ion-item button (click)="shareList(list); popover.dismiss()" detail="false" lines="full"
+                      class="popover-menu-item">
+                      <ion-icon name="share-social" slot="start"></ion-icon>Compartilhar
+                    </ion-item>
+                    <ion-item button (click)="removeList(list); popover.dismiss()" detail="false" lines="none"
+                      class="popover-menu-item">
+                      <ion-icon name="trash" slot="start"></ion-icon>Remover
+                    </ion-item>
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </div>
+
+            <ion-reorder>
+              <div class="flex space-between pd-4" (click)="accessList(list)">
+                <span>Itens: {{ list?.getCartLength() }}</span>
+                <span>Total: {{ list?.getCartTotal() | currency: 'BRL' : 'R$': '1.2-2' }}</span>
+              </div>
+            </ion-reorder>
+          </div>
+        </div>
+      </div>
+      } @empty {
+      <div class="no-item-div">
+        <ion-icon size="large" name="cart-outline"></ion-icon>
+        <span>Nenhuma Lista Cadastrada.</span>
+      </div>
+      }
+
+    </ion-reorder-group>
+  </ion-list>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="createNewList()" id="open-modal">
+    <ion-fab-button (click)="createNewList()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <ion-modal trigger="open-modal">
-    <ng-template>
-      <list-form></list-form>
-    </ng-template>
-  </ion-modal>
 </ion-content>

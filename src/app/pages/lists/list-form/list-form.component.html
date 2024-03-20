@@ -8,17 +8,19 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="listForm" class="pd-8">
+  <form [formGroup]="listForm" class="pd-8" (ngSubmit)="submitForm()">
     <ion-list>
-      <ion-item>
+      <ion-item lines="none">
         <ion-input type="text" name="listName" label="{{ 'SHOPPING_LIST.NAME' | translate }}" labelPlacement="floating"
-          formControlName="listName">
+          helperText="{{ 'SHOPPING_LIST.VALIDATION.HELPER_NAME' | translate }}"
+          placeholder="{{'EXAMPLE_ABBREV' | translate: {value: ('EXAMPLE_VALUE' | translate)} }}"
+          errorText="{{ 'SHOPPING_LIST.VALIDATION.NAME' | translate }}" formControlName="listName">
         </ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-input type="tel" name="target" label="{{ 'SHOPPING_LIST.TARGET' | translate }}" labelPlacement="floating"
-          formControlName="target">
+          currency formControlName="target" helperText="{{ 'SHOPPING_LIST.VALIDATION.HELPER_TARGET' | translate }}">
         </ion-input>
       </ion-item>
 
@@ -33,7 +35,23 @@
             {{ 'SHOPPING_LIST.TYPES.CART' | translate }}
           </ion-select-option>
         </ion-select>
+
+        <ion-buttons slot="end">
+          <ion-icon (click)="listTypeHelpClick($event)" color="primary" name="help-outline"></ion-icon>
+        </ion-buttons>
       </ion-item>
     </ion-list>
   </form>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="bottom-buttons">
+    <ion-button type="button" fill="outline" expand="block" (click)="modal.dismiss()">
+      {{ 'CANCEL' | translate }}
+    </ion-button>
+
+    <ion-button type="button" expand="block" (click)="submitForm()" color="primary">
+      {{ 'SAVE' | translate }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

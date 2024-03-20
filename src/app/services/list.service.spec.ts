@@ -32,8 +32,8 @@ describe('ListService', () => {
   });
 
   it('should call the \'getShoppingCartsSpy\' method', () => {
-    const getShoppingCartsSpy = spyOn(listService, 'getShoppingCarts');
-    listService.getShoppingCarts();
+    const getShoppingCartsSpy = spyOn(listService, 'getLists');
+    listService.getLists();
     expect(getShoppingCartsSpy).toHaveBeenCalledTimes(1);
   });
 });

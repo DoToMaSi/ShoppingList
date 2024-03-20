@@ -1,14 +1,28 @@
 {
   "HELLO": "Olá",
+  "OK": "OK",
+  "SAVE": "Salvar",
+  "CANCEL": "Cancelar",
+  "EXAMPLE_ABBREV": "ex: {{value}}",
+  "EXAMPLE_VALUE": "Compras Março",
+  "ERROR": "Erro",
   "SHOPPING_LIST": {
+    "ERROR_SAVE": "Erro ao salvar a lista",
     "TITLE": "Super Lista",
     "CREATE": "Criar Lista",
     "NAME": "Nome da Lista",
-    "TARGET": "Valor Máximo",
+    "TARGET": "Valor Meta",
     "TYPE": "Tipo de Lista",
     "TYPES": {
       "LIST": "Lista de Compras",
-      "CART": "Carrinho de Compras"
+      "CART": "Carrinho de Compras",
+      "HELPER": "O campo \"Tipo de Lista\" define se você quer uma lista simples, contendo apenas o nome do produto, ou um carrinho de compras, contendo a quantidade e o valor",
+      "HELPER_END": "Você podera converter sua Lista em um Carrinho depois, mas NÃO será possível converter um Carrinho em uma Lista"
+    },
+    "VALIDATION": {
+      "HELPER_NAME": "Digite um nome legal para sua Lista",
+      "HELPER_TARGET": "Estabeleça uma valor de meta para essa Lista",
+      "NAME": "Nome da Lista é obrigatório"
     }
   }
 }
